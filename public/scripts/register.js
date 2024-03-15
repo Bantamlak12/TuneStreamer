@@ -220,8 +220,9 @@ signUpButton.addEventListener('click', (e) => {
           setError(emailInput);
           displayErrorMessage(data.message, inputEmail, 'error-message');
         });
-      } else if (res.status === 500 && error.keyPattern.email) {
-        console.log('Got it');
+      } else if (res.status === 409) {
+        setError(firstNameInput);
+        setError(lastNameInput);
       }
     });
   }

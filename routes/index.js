@@ -10,5 +10,7 @@ router.post('/signup', AuthController.signup);
 router.post('/signin', AuthController.signin);
 router.post('/signout', AuthController.signout);
 router.get('/dashboard', requireAuth, AuthController.getDashboard);
+router.get('/admin/musics', AuthController.getMusicsPage);
+router.get('/admin/users', AuthController.getUsersPage);
 
 module.exports = router;

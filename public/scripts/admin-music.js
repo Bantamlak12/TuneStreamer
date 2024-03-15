@@ -134,6 +134,18 @@ const closeModal = function (modal) {
 // ************************************************************ //
 // EVENT LISTNER FOR FORM SUBMISSSION
 // ************************************************************ //
+// Sign out the user
+document.querySelector('.link-sign-out').addEventListener('click', (e) => {
+  e.preventDefault();
+
+  fetch('/signout', {
+    method: 'post',
+  }).then((res) => {
+    if (res.ok) {
+      window.location.href = '/signin';
+    }
+  });
+});
 
 // Admin profile
 adminProfile.addEventListener('click', function (e) {

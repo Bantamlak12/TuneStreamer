@@ -42,7 +42,6 @@ class AuthController {
       if (error.name === 'ValidationError') {
         return res.status(400).json({ error: '' });
       }
-      console.log(error.name);
       console.log(`Error creating user: ${error.message}`);
       res.status(500).json({ message: 'Internal server error' });
     }
@@ -66,7 +65,8 @@ class AuthController {
   }
 
   static async signout(req, res) {
-    res.json({ success: 'Signed out' });
+    req.session.destroy();
+    res.status(200).json({ success: 'Signed out' });
   }
 
   static async getDashboard(req, res) {

@@ -49,11 +49,28 @@ class AuthController {
   }
 
   static async signin(req, res) {
-    const userData = req.body;
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ error: 'Invalid email or password' });
+    }
+
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(400).json({ error: 'Invalid email or password' });
+    }
+
+    req.session.isAuthenticated = true;
+    res.status(200).json({ message: 'Signed in successfully' });
   }
 
   static async signout(req, res) {
     res.json({ success: 'Signed out' });
+  }
+
+  static async getDashboard(req, res) {
+    res.render('playground');
   }
 }
 

@@ -1,6 +1,7 @@
 const path = require('path');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const Admin = require('../models/Admin');
 
 class AuthController {
   static async getRegister(req, res) {
@@ -22,6 +23,29 @@ class AuthController {
       const saltRound = 10;
       const hashedpasswd = await bcrypt.hash(password, saltRound);
 
+      // Create admin
+      if (firstName === 'admin' && lastName === 'admin') {
+        const existingAdmin = await Admin.findOne({ isAdmin: true });
+        if (!existingAdmin) {
+          // If no admin add the  new user as an admin
+          const newAdmin = new Admin({
+            email,
+            password: hashedpasswd,
+          });
+          await newAdmin.save();
+          return res.status(200).redirect('/signin');
+        }
+        return res
+          .status(409)
+          .json({ error: '"admin" cannot be used as a name' });
+      }
+
+      if (firstName === 'admin' || lastName === 'admin') {
+        return res
+          .status(409)
+          .json({ error: '"admin" cannot be used as a name' });
+      }
+
       // Create new user document
       const newUser = new User({
         firstName,
@@ -34,7 +58,7 @@ class AuthController {
       // Save the new user to database
       await newUser.save();
 
-      res.status(200).redirect('/signin');
+      return res.status(200).redirect('/signin');
     } catch (error) {
       if (error.name === 'MongoServerError' && error.code === 11000) {
         return res.status(400).json({ message: 'Email already exists' });
@@ -61,7 +85,7 @@ class AuthController {
     }
 
     req.session.isAuthenticated = true;
-    res.status(200).json({ message: 'Signed in successfully' });
+    return res.status(200).json({ message: 'Signed in successfully' });
   }
 
   static async signout(req, res) {
@@ -71,6 +95,14 @@ class AuthController {
 
   static async getDashboard(req, res) {
     res.render('playground');
+  }
+
+  static async getMusicsPage(req, res) {
+    res.render('admin-music');
+  }
+
+  static async getUsersPage(req, res) {
+    res.render('admin-user');
   }
 }
 

@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <%- include('./partials/head.ejs') %>
-    <link rel="stylesheet" href="./styles/adminMusic.css" />
-    <script defer src="./scripts/admin-music.js"></script>
+    <link rel="stylesheet" href="/styles/adminMusic.css" />
+    <script defer src="/scripts/admin-music.js"></script>
     <title>Admin for TuneStream | TuneStream</title>
   </head>
   <body>
@@ -12,7 +12,7 @@
         <h1><span class="logo-part">Tune</span>Streamer</h1>
         <img
           class="admin-profile-logo"
-          src="images/circle-user.svg"
+          src="/images/circle-user.svg"
           alt="Admin"
         />
       </div>
@@ -26,15 +26,15 @@
 
       <section class="menu-cud">
         <div class="delete-music">
-          <img src="images/delete-music.svg" alt="Delete All" />
+          <img src="/images/delete-music.svg" alt="Delete All" />
           <button id="btn-delete-all">Delete All Musics</button>
         </div>
         <div class="add-music">
-          <img src="images/add-music.svg" alt="Add music" />
+          <img src="/images/add-music.svg" alt="Add music" />
           <button id="btn-add">Add Music</button>
         </div>
         <div class="update-music">
-          <img src="images/update-db.svg" alt="Update Track" />
+          <img src="/images/update-db.svg" alt="Update Track" />
           <button id="btn-update">Update Music</button>
         </div>
       </section>
@@ -52,7 +52,7 @@
               type="text"
               placeholder="Search"
             />
-            <img id="search" src="images/search.svg" class="search-icon" />
+            <img id="search" src="/images/search.svg" class="search-icon" />
           </div>
         </div>
       </section>
@@ -61,11 +61,11 @@
         <div class="music-search-result">
           <div class="music-details">
             <div class="music-cover-image-container">
-              <img class="music-cover-image" src="./images/google-icon.svg" />
+              <img class="music-cover-image" src="/images/google-icon.svg" />
               <i class="fa-solid fa-play audioController"></i>
               <audio class="audio">
                 <source
-                  src="./media/83Crutch_-_Upbeat_Metal.mp3"
+                  src="/media/83Crutch_-_Upbeat_Metal.mp3"
                   type="audio/mp3"
                 />
               </audio>
@@ -73,119 +73,6 @@
             <p class="artist-name">Teddy</p>
             <p class="song-title">Aydenegtim</p>
             <span id="song-id">432432432</span>
-            <button class="delete">DELETE</button>
-          </div>
-
-          <div class="music-details">
-            <div class="music-cover-image-container">
-              <img class="music-cover-image" src="./images/google-icon.svg" />
-              <i class="fa-solid fa-play audioController"></i>
-              <audio class="audio">
-                <source
-                  src="./media/Alexey_Anisimov_-_Dance_Energy.mp3"
-                  type="audio/mp3"
-                />
-              </audio>
-            </div>
-            <p class="artist-name">Teddy</p>
-            <p class="song-title">Aydenegtim</p>
-            <span id="song-id">dsfdsasa</span>
-            <button class="delete">DELETE</button>
-          </div>
-          <div class="music-details">
-            <div class="music-cover-image-container">
-              <img class="music-cover-image" src="./images/google-icon.svg" />
-              <i class="fa-solid fa-play audioController"></i>
-              <audio class="audio">
-                <source
-                  src="./media/Alexey_Anisimov_-_Fashion_Dance_Upbeat_Energy.mp3"
-                  type="audio/mp3"
-                />
-              </audio>
-            </div>
-            <p class="artist-name">Teddy</p>
-            <p class="song-title">Aydenegtim</p>
-            <span id="song-id">3243rds</span>
-            <button class="delete">DELETE</button>
-          </div>
-          <div class="music-details">
-            <div class="music-cover-image-container">
-              <img class="music-cover-image" src="./images/google-icon.svg" />
-              <i class="fa-solid fa-play audioController"></i>
-              <audio class="audio">
-                <source
-                  src="./media/ANtarcticbreeze_-_Extreme_Power.mp3"
-                  type="audio/mp3"
-                />
-              </audio>
-            </div>
-            <p class="artist-name">Teddy</p>
-            <p class="song-title">Aydenegtim</p>
-            <span id="song-id">Cdsfe432</span>
-            <button class="delete">DELETE</button>
-          </div>
-          <div class="music-details">
-            <div class="music-cover-image-container">
-              <img class="music-cover-image" src="./images/google-icon.svg" />
-              <i class="fa-solid fa-play audioController"></i>
-              <audio class="audio">
-                <source
-                  src="./media/Berool_-_Let_It_Into_Yourself.mp3"
-                  type="audio/mp3"
-                />
-              </audio>
-            </div>
-            <p class="artist-name">Teddy</p>
-            <p class="song-title">Aydenegtim</p>
-            <span id="song-id">dwer43e</span>
-            <button class="delete">DELETE</button>
-          </div>
-          <div class="music-details">
-            <div class="music-cover-image-container">
-              <img class="music-cover-image" src="./images/google-icon.svg" />
-              <i class="fa-solid fa-play audioController"></i>
-              <audio class="audio">
-                <source
-                  src="./media/Crypt_of_Insomnia_-_Depersonalization.mp3"
-                  type="audio/mp3"
-                />
-              </audio>
-            </div>
-            <p class="artist-name">Teddy</p>
-            <p class="song-title">Aydenegtim</p>
-            <span id="song-id">dsfdsasa</span>
-            <button class="delete">DELETE</button>
-          </div>
-          <div class="music-details">
-            <div class="music-cover-image-container">
-              <img class="music-cover-image" src="./images/google-icon.svg" />
-              <i class="fa-solid fa-play audioController"></i>
-              <audio class="audio">
-                <source
-                  src="./media/Daniel_Bautista_-_It_Cant_Be_Helped__25th_Anniversary_Edition_.mp3"
-                  type="audio/mp3"
-                />
-              </audio>
-            </div>
-            <p class="artist-name">Teddy</p>
-            <p class="song-title">Aydenegtim</p>
-            <span id="song-id">dsfdsasa</span>
-            <button class="delete">DELETE</button>
-          </div>
-          <div class="music-details">
-            <div class="music-cover-image-container">
-              <img class="music-cover-image" src="./images/google-icon.svg" />
-              <i class="fa-solid fa-play audioController"></i>
-              <audio class="audio">
-                <source
-                  src="./media/Excess_Pressure_-_Voices_in_my_Head.mp3"
-                  type="audio/mp3"
-                />
-              </audio>
-            </div>
-            <p class="artist-name">Teddy</p>
-            <p class="song-title">Aydenegtim</p>
-            <span id="song-id">dsfdsasa</span>
             <button class="delete">DELETE</button>
           </div>
         </div>

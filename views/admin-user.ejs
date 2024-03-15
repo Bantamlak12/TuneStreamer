@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <%- include('./partials/head.ejs') %>
-    <link rel="stylesheet" href="./styles/adminMusic.css" />
-    <script defer src="./scripts/admin-user.js"></script>
+    <link rel="stylesheet" href="/styles/adminMusic.css" />
+    <script defer src="/scripts/admin-user.js"></script>
     <title>Admin for TuneStream | TuneStream</title>
   </head>
   <body>
@@ -12,7 +12,7 @@
         <h1><span class="logo-part">Tune</span>Streamer</h1>
         <img
           class="admin-profile-logo"
-          src="images/circle-user.svg"
+          src="/images/circle-user.svg"
           alt="Admin"
         />
       </div>
@@ -26,7 +26,7 @@
 
       <div class="menu-cud">
         <div class="delete-all-users">
-          <img src="images/delete-user.svg" alt="Delete All" />
+          <img src="/images/delete-user.svg" alt="Delete All" />
           <button id="btn-delete-all">Delete All Users</button>
         </div>
       </div>
@@ -40,7 +40,7 @@
             name="SearchEmail"
             placeholder="User email"
           />
-          <img id="search" src="images/search.svg" class="search-icon" />
+          <img id="search" src="/images/search.svg" class="search-icon" />
         </div>
       </div>
 

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+    <link rel="stylesheet" href="./styles/adminMusic.css" />
+    <script defer src="./scripts/admin-user.js"></script>
+    <title>Admin for TuneStream | TuneStream</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1><span class="logo-part">Tune</span>Streamer</h1>
+        <img
+          class="admin-profile-logo"
+          src="images/circle-user.svg"
+          alt="Admin"
+        />
+      </div>
+      <div class="menu-toggle">
+        <div class="menu">
+          <a href="#" class="link">Manage Musics</a>
+          <a href="#" class="link">Manage Users</a>
+          <a href="#" class="link link-sign-out">Sign out</a>
+        </div>
+      </div>
+
+      <div class="menu-cud">
+        <div class="delete-all-users">
+          <img src="images/delete-user.svg" alt="Delete All" />
+          <button id="btn-delete-all">Delete All Users</button>
+        </div>
+      </div>
+
+      <div class="search-container">
+        <div class="search-wrapper">
+          <input
+            id="search-email"
+            class="search-input search-input-user"
+            type="text"
+            name="SearchEmail"
+            placeholder="User email"
+          />
+          <img id="search" src="images/search.svg" class="search-icon" />
+        </div>
+      </div>
+
+      <div class="user-info">
+        <h2 class="user-info-header">User search result will appear here</h2>
+        <form class="user-info-form">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" />
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" />
+          <label for="email">Email</label>
+          <input type="text" id="email" name="email" />
+          <button type="submit" class="btn btn-update-user-info">
+            Update user
+          </button>
+        </form>
+      </div>
+
+      <div class="overlay hidden"></div>
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+  </body>
+</html>

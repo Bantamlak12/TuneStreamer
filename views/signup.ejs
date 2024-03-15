@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+    <link rel="stylesheet" href="./styles/registrationLogin.css" />
+    <script type="module" src="./scripts/register.js"></script>
+    <title>Sign up for TuneStream | TuneStream</title>
+  </head>
+  <body>
+    <div class="header">
+      <h1><span class="logo-part">Tune</span>Streamer</h1>
+      <a href="/signin" class="link">Sign in</a>
+    </div>
+    <div class="registration">
+      <div class="registration-successful">
+        <h3>You have successfully registered!</h3>
+      </div>
+      <form action="#" class="registration-form">
+        <h1 class="center">Sign up</h1>
+
+        <label class="label" for="firstName">First Name </label>
+        <input
+          id="firstName"
+          class="input"
+          name="firstName"
+          type="text"
+          placeholder="John"
+        />
+
+        <label class="label" for="lastName">Last Name</label>
+        <input
+          id="lastName"
+          class="input"
+          name="lastName"
+          type="text"
+          placeholder="Doe"
+        />
+
+        <label class="label" for="email">Email</label>
+        <div class="input-email">
+          <input
+            id="email"
+            class="input"
+            name="email"
+            type="text"
+            placeholder="example@email.com"
+          />
+        </div>
+
+        <label class="label" for="passwd">Create Password</label>
+        <div class="input-passwd">
+          <input
+            id="password"
+            class="input"
+            name="password"
+            type="password"
+            placeholder="********"
+          />
+          <i
+            class="password-toggle-icon fas fa-eye-slash"
+            data-target="password"
+          ></i>
+        </div>
+
+        <label class="label" for="passwd-repeat">Confirm Password</label>
+        <div class="input-passwd-cfm">
+          <input
+            id="confirmPassword"
+            class="input"
+            name="confirmPassword"
+            type="password"
+            placeholder="********"
+          />
+          <i
+            class="password-toggle-icon fas fa-eye-slash"
+            data-target="confirmPassword"
+          ></i>
+        </div>
+        <button class="sign-up" type="submit">Sign up</button>
+      </form>
+
+      <div class="or"></div>
+
+      <div class="google">
+        <img class="icon" src="./images/google-icon.svg" alt="" />
+        <a class="link-google" href="#">Continue with Google</a>
+      </div>
+      <p class="center has-account">
+        Already have an Account?
+        <a class="link-sign-in" href="/signin">Sign in</a>
+      </p>
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+  </body>
+</html>

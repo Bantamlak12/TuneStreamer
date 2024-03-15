@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+    <link rel="stylesheet" href="./styles/registrationLogin.css" />
+    <script defer src="./scripts/login.js"></script>
+    <title>Sign in for TuneStream | TuneStream</title>
+  </head>
+  <body>
+    <div class="header">
+      <h1><span class="logo-part">Tune</span>Streamer</h1>
+      <a href="/signup" class="link">Sign up</a>
+    </div>
+    <div class="signIn">
+      <form action="#" class="signin-form">
+        <h1 class="center">Sign in</h1>
+
+        <label class="label" for="email">Email</label>
+        <input
+          id="email"
+          class="input"
+          name="email"
+          type="text"
+          placeholder="example@email.com"
+        />
+
+        <label class="label" for="passwd">Password</label>
+        <div class="input-passwd">
+          <input
+            id="password"
+            name="password"
+            class="input"
+            type="password"
+            placeholder="********"
+          />
+          <i
+            class="password-toggle-icon password-toggle fas fa-eye-slash"
+            data-target="password"
+          ></i>
+        </div>
+
+        <a href="#" class="forgot-passwd">Forgot your password? </a>
+
+        <button class="sign-in" type="submit">Sign in</button>
+      </form>
+
+      <div class="or"></div>
+
+      <div class="google">
+        <img class="icon" src="./images/google-icon.svg" alt="" />
+        <a class="link-google" href="#">Sign in with Google</a>
+      </div>
+      <p class="center no-account">
+        Don't have an Account?
+        <a class="link-sign-up" href="/signup">Sign up</a>
+      </p>
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+  </body>
+</html>

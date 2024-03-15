@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+    <link rel="stylesheet" href="./styles/adminMusic.css" />
+    <script defer src="./scripts/admin-music.js"></script>
+    <title>Admin for TuneStream | TuneStream</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1><span class="logo-part">Tune</span>Streamer</h1>
+        <img
+          class="admin-profile-logo"
+          src="images/circle-user.svg"
+          alt="Admin"
+        />
+      </div>
+      <div class="menu-toggle">
+        <div class="menu">
+          <a href="#" class="link">Manage Musics</a>
+          <a href="#" class="link">Manage Users</a>
+          <a href="#" class="link link-sign-out">Sign out</a>
+        </div>
+      </div>
+
+      <section class="menu-cud">
+        <div class="delete-music">
+          <img src="images/delete-music.svg" alt="Delete All" />
+          <button id="btn-delete-all">Delete All Musics</button>
+        </div>
+        <div class="add-music">
+          <img src="images/add-music.svg" alt="Add music" />
+          <button id="btn-add">Add Music</button>
+        </div>
+        <div class="update-music">
+          <img src="images/update-db.svg" alt="Update Track" />
+          <button id="btn-update">Update Music</button>
+        </div>
+      </section>
+
+      <section class="get">
+        <div class="search-container">
+          <div class="search-wrapper">
+            <select id="options" class="options">
+              <option value="get-track">Track name</option>
+              <option value="get-all">All tracks</option>
+            </select>
+            <input
+              id="input"
+              class="search-input"
+              type="text"
+              placeholder="Search"
+            />
+            <img id="search" src="images/search.svg" class="search-icon" />
+          </div>
+        </div>
+      </section>
+
+      <section class="section-search-result">
+        <div class="music-search-result">
+          <div class="music-details">
+            <div class="music-cover-image-container">
+              <img class="music-cover-image" src="./images/google-icon.svg" />
+              <i class="fa-solid fa-play audioController"></i>
+              <audio class="audio">
+                <source
+                  src="./media/83Crutch_-_Upbeat_Metal.mp3"
+                  type="audio/mp3"
+                />
+              </audio>
+            </div>
+            <p class="artist-name">Teddy</p>
+            <p class="song-title">Aydenegtim</p>
+            <span id="song-id">432432432</span>
+            <button class="delete">DELETE</button>
+          </div>
+
+          <div class="music-details">
+            <div class="music-cover-image-container">
+              <img class="music-cover-image" src="./images/google-icon.svg" />
+              <i class="fa-solid fa-play audioController"></i>
+              <audio class="audio">
+                <source
+                  src="./media/Alexey_Anisimov_-_Dance_Energy.mp3"
+                  type="audio/mp3"
+                />
+              </audio>
+            </div>
+            <p class="artist-name">Teddy</p>
+            <p class="song-title">Aydenegtim</p>
+            <span id="song-id">dsfdsasa</span>
+            <button class="delete">DELETE</button>
+          </div>
+          <div class="music-details">
+            <div class="music-cover-image-container">
+              <img class="music-cover-image" src="./images/google-icon.svg" />
+              <i class="fa-solid fa-play audioController"></i>
+              <audio class="audio">
+                <source
+                  src="./media/Alexey_Anisimov_-_Fashion_Dance_Upbeat_Energy.mp3"
+                  type="audio/mp3"
+                />
+              </audio>
+            </div>
+            <p class="artist-name">Teddy</p>
+            <p class="song-title">Aydenegtim</p>
+            <span id="song-id">3243rds</span>
+            <button class="delete">DELETE</button>
+          </div>
+          <div class="music-details">
+            <div class="music-cover-image-container">
+              <img class="music-cover-image" src="./images/google-icon.svg" />
+              <i class="fa-solid fa-play audioController"></i>
+              <audio class="audio">
+                <source
+                  src="./media/ANtarcticbreeze_-_Extreme_Power.mp3"
+                  type="audio/mp3"
+                />
+              </audio>
+            </div>
+            <p class="artist-name">Teddy</p>
+            <p class="song-title">Aydenegtim</p>
+            <span id="song-id">Cdsfe432</span>
+            <button class="delete">DELETE</button>
+          </div>
+          <div class="music-details">
+            <div class="music-cover-image-container">
+              <img class="music-cover-image" src="./images/google-icon.svg" />
+              <i class="fa-solid fa-play audioController"></i>
+              <audio class="audio">
+                <source
+                  src="./media/Berool_-_Let_It_Into_Yourself.mp3"
+                  type="audio/mp3"
+                />
+              </audio>
+            </div>
+            <p class="artist-name">Teddy</p>
+            <p class="song-title">Aydenegtim</p>
+            <span id="song-id">dwer43e</span>
+            <button class="delete">DELETE</button>
+          </div>
+          <div class="music-details">
+            <div class="music-cover-image-container">
+              <img class="music-cover-image" src="./images/google-icon.svg" />
+              <i class="fa-solid fa-play audioController"></i>
+              <audio class="audio">
+                <source
+                  src="./media/Crypt_of_Insomnia_-_Depersonalization.mp3"
+                  type="audio/mp3"
+                />
+              </audio>
+            </div>
+            <p class="artist-name">Teddy</p>
+            <p class="song-title">Aydenegtim</p>
+            <span id="song-id">dsfdsasa</span>
+            <button class="delete">DELETE</button>
+          </div>
+          <div class="music-details">
+            <div class="music-cover-image-container">
+              <img class="music-cover-image" src="./images/google-icon.svg" />
+              <i class="fa-solid fa-play audioController"></i>
+              <audio class="audio">
+                <source
+                  src="./media/Daniel_Bautista_-_It_Cant_Be_Helped__25th_Anniversary_Edition_.mp3"
+                  type="audio/mp3"
+                />
+              </audio>
+            </div>
+            <p class="artist-name">Teddy</p>
+            <p class="song-title">Aydenegtim</p>
+            <span id="song-id">dsfdsasa</span>
+            <button class="delete">DELETE</button>
+          </div>
+          <div class="music-details">
+            <div class="music-cover-image-container">
+              <img class="music-cover-image" src="./images/google-icon.svg" />
+              <i class="fa-solid fa-play audioController"></i>
+              <audio class="audio">
+                <source
+                  src="./media/Excess_Pressure_-_Voices_in_my_Head.mp3"
+                  type="audio/mp3"
+                />
+              </audio>
+            </div>
+            <p class="artist-name">Teddy</p>
+            <p class="song-title">Aydenegtim</p>
+            <span id="song-id">dsfdsasa</span>
+            <button class="delete">DELETE</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="player">
+        <div class="player-container">
+          <i class="fa-solid fa-x"></i>
+          <div class="track-detail">
+            <h1 class="artist">Adele</h1>
+            <p class="track-title">Some one like you</p>
+          </div>
+          <div class="player-control">
+            <span class="progress-timer"></span>
+            <i class="fa-solid fa-backward"></i>
+            <i class="fa-solid fa-play audioController playerController"></i>
+            <i class="fa-solid fa-forward"></i>
+            <span class="end-timer"></span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="modal-music hidden">
+      <h2 class="modal-header">Add music</h2>
+      <form
+        action="#"
+        method="post"
+        class="modal-form"
+        enctype="multipart/form-data"
+      >
+        <div class="col-one">
+          <label for="audioFile"
+            >Upload audio<span class="required-input">*</span></label
+          >
+          <input type="file" id="audioFile" name="audioFile" accept="audio/*" />
+
+          <label for="audioImage"
+            >Upload cover Art<span class="required-input">*</span></label
+          >
+          <input
+            type="file"
+            id="audioImage"
+            name="audioImage"
+            accept="image/*"
+          />
+
+          <label for="title">Title<span class="required-input">*</span></label>
+          <input type="text" id="title" name="title" />
+
+          <label for="artist"
+            >Artist<span class="required-input">*</span></label
+          >
+          <input type="text" id="artist" name="artist" />
+
+          <label for="album">Album</label>
+          <input type="text" id="album" name="album" />
+
+          <label for="genre">Genre<span class="required-input">*</span></label>
+          <input type="text" id="genre" name="genre" />
+
+          <label for="releaseYear"
+            >Release year<span class="required-input">*</span></label
+          >
+          <input type="text" id="releaseYear" name="releaseYear" />
+
+          <label for="duration">Duration</label>
+          <input type="text" id="duration" name="duration" />
+
+          <label for="trackNumber">Track number</label>
+          <input type="text" id="trackNumber" name="trackNumber" />
+        </div>
+
+        <div class="col-two">
+          <label for="composer">Composer(s)</label>
+          <input type="text" id="composer" name="composer" />
+
+          <label for="language"
+            >Language<span class="required-input">*</span></label
+          >
+          <input type="text" id="language" name="language" />
+
+          <label for="lyric">Lyric</label>
+          <textarea name="lyric" id="lyric" cols="30" rows="5"></textarea>
+
+          <label for="lyricist">Lyricist(s)</label>
+          <input type="text" id="lyricist" name="lyricist" />
+
+          <label for="fileFormat"
+            >File Format (MP3, WAV, FLAC)<span class="required-input"
+              >*</span
+            ></label
+          >
+          <input type="text" id="fileFormat" name="fileFormat" />
+
+          <label for="fileSize">File Size</label>
+          <input type="text" id="fileSize" name="fileSize" />
+
+          <label for="licence"
+            >Licence information<span class="required-input">*</span></label
+          >
+          <input type="text" id="licence" name="licence" />
+
+          <label for="additionalNote">Additional Note</label>
+          <textarea
+            name="additionalNote"
+            id="additionalNote"
+            cols="30"
+            rows="5"
+          ></textarea>
+        </div>
+
+        <button class="btn btn-music-cancel">Cancel</button>
+        <button type="submit" class="btn btn-music-submit">Add music</button>
+      </form>
+    </div>
+
+    <div class="modal-update hidden">
+      <h2 class="modal-header">Update music</h2>
+      <div class="search-engine">
+        <input
+          class="search-input-to-update"
+          type="text"
+          placeholder="Search by title"
+        />
+        <button class="btn-search-to-update">Search</button>
+      </div>
+      <form
+        action="#"
+        method="post"
+        class="modal-form modal-form-update"
+        enctype="multipart/form-data"
+      >
+        <div class="col-one">
+          <label for="updatedcoverArt">Upload cover Art</label>
+          <input
+            type="file"
+            id="updatedcoverArt"
+            name="coverArt"
+            accept="image/*"
+          />
+
+          <label for="updatedTitle">Title</label>
+          <input type="text" id="updatedTitle" name="title" />
+
+          <label for="updatedArtist">Artist</label>
+          <input type="text" id="updatedArtist" name="artist" />
+
+          <label for="UpdatedAlbum">Albem</label>
+          <input type="text" id="UpdatedAlbum" name="album" />
+
+          <label for="updatedGenre">Genre</label>
+          <input type="text" id="updatedGenre" name="genre" />
+
+          <label for="updatedReleaseYear">Release year</label>
+          <input type="text" id="updatedReleaseYear" name="releaseYear" />
+
+          <label for="updatedDuration">Duration</label>
+          <input type="text" id="updatedDuration" name="duration" />
+
+          <label for="updatedTrackNumber">Track number</label>
+          <input type="text" id="updatedTrackNumber" name="trackNumber" />
+
+          <label for="updatedComposer">Composer(s)</label>
+          <input type="text" id="updatedComposer" name="composer" />
+        </div>
+
+        <div class="col-two">
+          <label for="updatedLanguage">Language</label>
+          <input type="text" id="updatedLanguage" name="language" />
+
+          <label for="updatedLyric">Lyric</label>
+          <textarea
+            name="lyric"
+            cols="30"
+            rows="5"
+            id="updatedLyric"
+          ></textarea>
+
+          <label for="updatedLyricist">Lyricist(s)</label>
+          <input type="text" id="updatedLyricist" name="lyricist" />
+
+          <label for="updatedFileFormat">File Format (MP3, WAV, FLAC)</label>
+          <input type="text" id="updatedFileFormat" name="fileFormat" />
+
+          <label for="updatedFileSize">File Size</label>
+          <input type="text" id="updatedFileSize" name="fileSize" />
+
+          <label for="updatedLicence">Licence information</label>
+          <input type="text" id="updatedLicence" name="licence" />
+
+          <label for="updatedAdditionalNote">Additional Note</label>
+          <textarea
+            name="additionalNote"
+            id="updatedAdditionalNote"
+            cols="30"
+            rows="5"
+          ></textarea>
+        </div>
+
+        <button class="btn btn-update-cancel">Cancel</button>
+        <button type="submit" class="btn btn-update-submit">
+          Update music
+        </button>
+      </form>
+    </div>
+
+    <div class="overlay hidden"></div>
+
+    <%- include('./partials/footer.ejs') %>
+  </body>
+</html>

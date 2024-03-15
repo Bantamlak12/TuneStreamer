@@ -102,12 +102,13 @@ signInButton.addEventListener('click', (e) => {
     }).then((res) => {
       if (!res.ok) {
         // Extract error message
-        console.log(userCredentials);
-
         message = 'Email or Password is incorect.';
         parentClass = document.querySelector('.input-passwd');
         childClass = 'error-message';
         displayErrorMessage(message, parentClass, childClass);
+      }
+      if (res.ok) {
+        window.location.href = '/dashboard';
       }
     });
   }

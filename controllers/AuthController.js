@@ -80,7 +80,7 @@ class AuthController {
     if (admin) {
       const validPassword = await bcrypt.compare(password, admin.password);
       if (validPassword) {
-        req.session.isAuthenticated = true;
+        req.session.isAdminAuthenticated = true;
         return res
           .status(200)
           .json({ isAdmin: true, message: 'Signed in successfully' });

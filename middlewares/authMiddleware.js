@@ -1,8 +1,15 @@
-const requireAuth = (req, res, next) => {
+const useRequireAuth = (req, res, next) => {
   if (!req.session.isAuthenticated) {
     return res.status(401).redirect('/signin');
   }
   next();
 };
 
-module.exports = requireAuth;
+const adminRequireAuth = (req, res, next) => {
+  if (!req.session.isAdminAuthenticated) {
+    return res.status(401).redirect('/signin');
+  }
+  next();
+};
+
+module.exports = { useRequireAuth, adminRequireAuth };

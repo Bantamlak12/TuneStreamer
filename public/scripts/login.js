@@ -99,18 +99,21 @@ signInButton.addEventListener('click', (e) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userCredentials),
-    }).then((res) => {
-      if (!res.ok) {
-        // Extract error message
-        message = 'Email or Password is incorect.';
-        parentClass = document.querySelector('.input-passwd');
-        childClass = 'error-message';
-        displayErrorMessage(message, parentClass, childClass);
-      }
-      if (res.ok) {
-        window.location.href = '/dashboard';
-      }
-    });
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          // Extract error message
+          message = 'Email or Password is incorect.';
+          parentClass = document.querySelector('.input-passwd');
+          childClass = 'error-message';
+          displayErrorMessage(message, parentClass, childClass);
+        } else if (!data.isAdmin) {
+          window.location.href = '/dashboard';
+        } else if (data.isAdmin) {
+          window.location.href = '/admin/musics';
+        }
+      });
   }
 });
 

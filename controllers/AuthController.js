@@ -71,28 +71,46 @@ class AuthController {
     }
   }
 
+  // SIGN IN A USER
   static async signin(req, res) {
     const { email, password } = req.body;
+
+    // check if it's the admin
+    const admin = await Admin.findOne({ email });
+    if (admin) {
+      const validPassword = await bcrypt.compare(password, admin.password);
+      if (validPassword) {
+        req.session.isAuthenticated = true;
+        return res
+          .status(200)
+          .json({ isAdmin: true, message: 'Signed in successfully' });
+      }
+    }
+
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ error: 'Invalid email or password' });
+      return res.status(400).json({ error: true });
     }
 
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
-      return res.status(400).json({ error: 'Invalid email or password' });
+      return res.status(400).json({ error: true });
     }
 
     req.session.isAuthenticated = true;
-    return res.status(200).json({ message: 'Signed in successfully' });
+    return res
+      .status(200)
+      .json({ isAdmin: false, message: 'Signed in successfully' });
   }
 
+  // SING OUT A USER
   static async signout(req, res) {
     req.session.destroy();
     res.status(200).json({ success: 'Signed out' });
   }
 
+  // OPEN USER PLAYGROUND
   static async getDashboard(req, res) {
     res.render('playground');
   }

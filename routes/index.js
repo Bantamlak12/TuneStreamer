@@ -19,6 +19,6 @@ router.get('/admin/musics', adminRequireAuth, AuthController.getMusicsPage);
 router.get('/admin/users', adminRequireAuth, AuthController.getUsersPage);
 router.delete('/admin/users', adminRequireAuth, UserController.deleteAllUsers);
 router.post('/admin/users/user', adminRequireAuth, UserController.getUser);
-router.post('/admin/users/user', adminRequireAuth, UserController.updateUser);
+router.put('/admin/users/user', adminRequireAuth, UserController.updateUser);
 
 module.exports = router;

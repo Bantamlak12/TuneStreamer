@@ -27,7 +27,7 @@ const setSuccess = (input) => {
 };
 
 const isValidEmail = (email) => {
-  const regexp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const regexp = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
   const validated = regexp.test(email);
 
@@ -91,6 +91,9 @@ const searchUser = () => {
       firstNameInput.value = data[0].firstName;
       lastNameInput.value = data[0].lastName;
       emailInput.value = data[0].email;
+    })
+    .catch((error) => {
+      return;
     });
 };
 // ************************************************************ //
@@ -155,7 +158,27 @@ btnUpdateUser.addEventListener('click', (e) => {
     for (const [key, value] of formDate) {
       updatedInfo[key] = value;
     }
-    console.log(updatedInfo);
+
+    // Email used to search the user on the database
+    const email = searchEmail.value.trim();
+    updatedInfo['userEmail'] = email;
+
+    // Send PUT request to update the user info on the server
+    fetch('/admin/users/user', {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedInfo),
+    })
+      .then((res) => {
+        if (res.ok) {
+          userInfoForm.reset();
+        }
+      })
+      .catch((error) => {
+        return;
+      });
   } else {
     return;
   }
@@ -163,8 +186,25 @@ btnUpdateUser.addEventListener('click', (e) => {
 
 // Delete a single user
 btnDeleteUser.addEventListener('click', (e) => {
-  const formDate = new FormData(userInfoForm);
-  const email = formDate.get('email');
-  if (!email) return;
+  const isConfirmed = confirm(
+    'Are you sure you want to delete this user? This action is irreversible and cannot be undone.'
+  );
+
+  const email = searchEmail.value.trim();
+  if (!email || email === '') return;
+
   //  Send request to server with email and method 'delete
+  if (isConfirmed) {
+    fetch('/admin/users/user', {
+      method: 'delete',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    }).then((res) => {
+      if (res.ok) {
+        userInfoForm.reset();
+      }
+    });
+  }
 });

@@ -26,16 +26,62 @@ class UserController {
         .select('-_id firstName lastName email')
         .lean();
 
-      if (!user) {
+      if (!user || user.length === 0) {
         return res.status(404).json({ error: 'User not found.' });
       }
 
-      res.status(200).json(user);
+      return res.status(200).json(user);
     } catch (error) {
       console.log(`Error getting a user: ${error.message}`);
       return res
         .status(500)
         .json({ error: 'An error occured while getting a user' });
+    }
+  }
+
+  //  Get the user updated
+  static async updateUser(req, res) {
+    try {
+      const { userEmail, firstName, lastName, email } = req.body;
+
+      const updatedUser = await User.findOneAndUpdate(
+        { email: userEmail },
+        { firstName, lastName, email },
+        { new: true, runValidators: true } // new to return updated doc
+      );
+
+      if (!updatedUser) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      return res.status(200).json(updatedUser);
+    } catch (error) {
+      console.log(`Error getting a user: ${error.message}`);
+      return res
+        .status(500)
+        .json({ error: 'An error occured while updating a user' });
+    }
+  }
+
+  // Delete a user
+  static async deleteUser(req, res) {
+    try {
+      const { email } = req.body;
+
+      if (!email) {
+        return res.status(400).json({ error: 'Email is required' });
+      }
+
+      const deletedUser = await User.findOneAndDelete({ email });
+      if (!deletedUser) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      res.status(200).json({ message: 'User deleted successfully' });
+    } catch (err) {
+      console.log(`Error deleting a user: ${error.message}`);
+      return res
+        .status(500)
+        .json({ error: 'An error occured while deleting a user' });
     }
   }
 }

@@ -5,6 +5,7 @@ const {
   useRequireAuth,
   adminRequireAuth,
 } = require('../middlewares/authMiddleware');
+const User = require('../models/User');
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.get('/admin/musics', adminRequireAuth, AuthController.getMusicsPage);
 router.get('/admin/users', adminRequireAuth, AuthController.getUsersPage);
 router.delete('/admin/users', adminRequireAuth, UserController.deleteAllUsers);
 router.post('/admin/users/user', adminRequireAuth, UserController.getUser);
+router.post('/admin/users/user', adminRequireAuth, UserController.updateUser);
 
 module.exports = router;

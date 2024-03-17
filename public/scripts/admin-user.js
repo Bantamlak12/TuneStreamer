@@ -88,7 +88,9 @@ const searchUser = () => {
       }
     })
     .then((data) => {
-      console.log(data);
+      firstNameInput.value = data[0].firstName;
+      lastNameInput.value = data[0].lastName;
+      emailInput.value = data[0].email;
     });
 };
 // ************************************************************ //

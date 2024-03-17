@@ -16,6 +16,7 @@ router.post('/signout', AuthController.signout);
 router.get('/dashboard', useRequireAuth, AuthController.getDashboard);
 router.get('/admin/musics', adminRequireAuth, AuthController.getMusicsPage);
 router.get('/admin/users', adminRequireAuth, AuthController.getUsersPage);
-router.delete('/users', adminRequireAuth, UserController.deleteAllUsers);
+router.delete('/admin/users', adminRequireAuth, UserController.deleteAllUsers);
+router.post('/admin/users/user', adminRequireAuth, UserController.getUser);
 
 module.exports = router;

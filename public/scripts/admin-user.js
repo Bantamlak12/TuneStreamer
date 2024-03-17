@@ -11,6 +11,7 @@ const searchEmail = document.getElementById('search-email');
 const search = document.getElementById('search');
 const userInfoForm = document.querySelector('.user-info-form');
 const btnUpdateUser = document.querySelector('.btn-update-user-info');
+const btnDeleteUser = document.querySelector('.btn-delete-user-info');
 
 // ************************************************************ //
 // FUNCTION
@@ -120,4 +121,12 @@ btnUpdateUser.addEventListener('click', (e) => {
   } else {
     return;
   }
+});
+
+// Delete a single user
+btnDeleteUser.addEventListener('click', (e) => {
+  const formDate = new FormData(userInfoForm);
+  const email = formDate.get('email');
+  if (!email) return;
+  //  Send request to server with email and method 'delete
 });

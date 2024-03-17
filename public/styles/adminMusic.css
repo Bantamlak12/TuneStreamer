@@ -347,11 +347,20 @@ body {
 .user-info-form input:focus {
   outline: none;
 }
-.btn-update-user-info {
+.btn-update-user-info,
+.btn-delete-user-info {
+  width: 20rem;
+  margin: 0 auto;
   color: #fff;
   background-color: #047755;
-  align-self: center;
   transition: all 0.3s;
+}
+.btn-delete-user-info {
+  background-color: #f44336;
+  margin-top: 2rem;
+}
+.btn-delete-user-info:hover {
+  background-color: #c52c2c;
 }
 .btn-update-user-info:hover {
   background-color: #085a41;

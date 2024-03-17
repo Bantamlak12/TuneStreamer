@@ -20,5 +20,6 @@ router.get('/admin/users', adminRequireAuth, AuthController.getUsersPage);
 router.delete('/admin/users', adminRequireAuth, UserController.deleteAllUsers);
 router.post('/admin/users/user', adminRequireAuth, UserController.getUser);
 router.put('/admin/users/user', adminRequireAuth, UserController.updateUser);
+router.delete('/admin/users/user', adminRequireAuth, UserController.deleteUser);
 
 module.exports = router;

@@ -75,9 +75,22 @@ const searchUser = () => {
   }
   const email = searchEmail.value.trim();
   //  Send request to server with email and method 'delete
-  console.log(email);
+  fetch('/admin/users/user', {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email }),
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .then((data) => {
+      console.log(data);
+    });
 };
-
 // ************************************************************ //
 // ADMIN PROFILE
 // ************************************************************ //
@@ -101,10 +114,10 @@ btnDeleteAll.addEventListener('click', (e) => {
     'Are you sure you want to delete all users? This action is irreversible and cannot be undone. This is a more dangerous action.'
   );
 
-  // If confirmed delete the song
+  // If confirmed delete all users
   if (isConfirmed) {
-    //  Send request to server with email and method 'delete
-    fetch('/users', {
+    //  Send request to server to delete all users
+    fetch('/admin/users', {
       method: 'delete',
       headers: {
         'Content-Type': 'application/json',

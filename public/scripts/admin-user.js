@@ -68,6 +68,16 @@ const validateInput = () => {
   return isValid;
 };
 
+// Search user by email
+const searchUser = () => {
+  if (searchEmail.value == '') {
+    return;
+  }
+  const email = searchEmail.value.trim();
+  //  Send request to server with email and method 'delete
+  console.log(email);
+};
+
 // ************************************************************ //
 // ADMIN PROFILE
 // ************************************************************ //
@@ -93,17 +103,30 @@ btnDeleteAll.addEventListener('click', (e) => {
 
   // If confirmed delete the song
   if (isConfirmed) {
-    console.log('Confirmed to delete all users.');
+    //  Send request to server with email and method 'delete
+    fetch('/users', {
+      method: 'delete',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => {
+      if (res.ok) {
+        console.log('All users deleted successfully');
+      } else {
+        console.error('Failed to delete users');
+      }
+    });
   }
 });
 
 // Search
-search.addEventListener('click', (e) => {
-  if (searchEmail.value == '') {
-    return;
+searchEmail.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    searchUser();
   }
-  const emailObj = JSON.stringify({ email: searchEmail.value.trim() });
-  console.log(emailObj);
+});
+search.addEventListener('click', (e) => {
+  searchUser();
 });
 
 // Update user

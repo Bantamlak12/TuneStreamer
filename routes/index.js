@@ -1,11 +1,12 @@
 const express = require('express');
 const AuthController = require('../controllers/AuthController');
 const UserController = require('../controllers/UserController');
+const MusicController = require('../controllers/MusicController');
+const cpUpload = require('../middlewares/musicMiddleware');
 const {
   useRequireAuth,
   adminRequireAuth,
 } = require('../middlewares/authMiddleware');
-const User = require('../models/User');
 
 const router = express.Router();
 
@@ -21,5 +22,11 @@ router.delete('/admin/users', adminRequireAuth, UserController.deleteAllUsers);
 router.post('/admin/users/user', adminRequireAuth, UserController.getUser);
 router.put('/admin/users/user', adminRequireAuth, UserController.updateUser);
 router.delete('/admin/users/user', adminRequireAuth, UserController.deleteUser);
+router.post(
+  '/admin/musics/music',
+  adminRequireAuth,
+  cpUpload,
+  MusicController.addMusic
+);
 
 module.exports = router;

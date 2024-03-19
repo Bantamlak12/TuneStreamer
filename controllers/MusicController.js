@@ -1,4 +1,6 @@
 const Music = require('../models/Music');
+const fs = require('fs');
+const path = require('path');
 
 class MusicController {
   // UPLOADING A MUSIC
@@ -17,8 +19,8 @@ class MusicController {
 
       // Create the new music object
       const newMusic = new Music({
-        audioFile: `/public/uploads/${audioFile.filename}`,
-        coverImage: `/public/uploads/${coverImage.filename}`,
+        audioFile: `/uploads/${audioFile.filename}`,
+        coverImage: `/uploads/${coverImage.filename}`,
         title: req.body.title,
         artist: req.body.artist,
         album: req.body.album,
@@ -45,6 +47,38 @@ class MusicController {
       return res
         .status(500)
         .json({ error: 'An error occured while uploading a music' });
+    }
+  }
+
+  // GET ALL MUSICS
+  static async deleteMusic(req, res) {
+    try {
+      const { songId, imageURL, musicURL } = req.body;
+
+      const deletedMusic = await Music.findOneAndDelete({
+        _id: songId,
+      });
+      if (!deletedMusic) {
+        return res.status(404).json({ error: 'Music not found' });
+      }
+
+      // Delete the music data from local storage
+      if (imageURL) {
+        const imagePath = path.join(__dirname, '../public', imageURL);
+        fs.unlinkSync(imagePath);
+      }
+
+      if (musicURL) {
+        const musicpath = path.join(__dirname, '../public', musicURL);
+        fs.unlinkSync(musicpath);
+      }
+
+      return res.status(200).json({ message: 'Music deleted successfully' });
+    } catch (error) {
+      console.log(`Error getting all musics: ${error.message}`);
+      return res
+        .status(500)
+        .json({ error: 'An error occured while getting all musics' });
     }
   }
 }

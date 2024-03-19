@@ -4,7 +4,7 @@ const UserController = require('../controllers/UserController');
 const MusicController = require('../controllers/MusicController');
 const cpUpload = require('../middlewares/musicMiddleware');
 const {
-  useRequireAuth,
+  userRequireAuth,
   adminRequireAuth,
 } = require('../middlewares/authMiddleware');
 
@@ -15,7 +15,7 @@ router.get('/signin', AuthController.getLogin);
 router.post('/signup', AuthController.signup);
 router.post('/signin', AuthController.signin);
 router.post('/signout', AuthController.signout);
-router.get('/dashboard', useRequireAuth, AuthController.getDashboard);
+router.get('/dashboard', userRequireAuth, AuthController.getDashboard);
 router.get('/admin/musics', adminRequireAuth, AuthController.getMusicsPage);
 router.get('/admin/users', adminRequireAuth, AuthController.getUsersPage);
 router.delete('/admin/users', adminRequireAuth, UserController.deleteAllUsers);
@@ -27,6 +27,11 @@ router.post(
   adminRequireAuth,
   cpUpload,
   MusicController.addMusic
+);
+router.delete(
+  '/admin/musics/music',
+  adminRequireAuth,
+  MusicController.deleteMusic
 );
 
 module.exports = router;

@@ -58,7 +58,11 @@
           <% musics.forEach((music) => { %>
           <div class="music-details">
             <div class="music-cover-image-container">
-              <img class="music-cover-image" src="<%= music.coverImage %>" />
+              <img
+                class="music-cover-image"
+                style="height: 130px"
+                src="<%= music.coverImage %>"
+              />
               <i class="fa-solid fa-play audioController"></i>
               <audio class="audio">
                 <source

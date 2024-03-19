@@ -15,7 +15,9 @@ const addMusic = document.getElementById('btn-add');
 const updateMusic = document.getElementById('btn-update');
 const btnMusicCancel = document.querySelector('.btn-music-cancel');
 const btnUpdateCancel = document.querySelector('.btn-update-cancel');
-// const btnMusicSubmit = document.querySelector('.btn-music-submit');
+
+const formUpdate = document.querySelector('.formUpdate');
+const btnMusicSubmit = document.querySelector('.btn-music-submit');
 // const btnMusicUpdate = document.querySelector('.btn-update-submit');
 const btnSearchToUpdate = document.querySelector('.btn-search-to-update');
 const searchInputToUpdate = document.querySelector('.search-input-to-update');
@@ -280,10 +282,21 @@ btnMusicCancel.addEventListener('click', (e) => {
   e.preventDefault();
   closeModal(modalMusic);
 });
-// btnMusicSubmit.addEventListener('click', (e) => {
-//   e.preventDefault();
-//   console.log('Music submited');
-// });
+btnMusicSubmit.addEventListener('click', (e) => {
+  e.preventDefault();
+  const formData = new FormData(formUpdate);
+
+  // Send the music details to the backend
+  fetch('/admin/musics/music', {
+    method: 'POST',
+    body: formData,
+  }).then(async (res) => {
+    if (res.status === 201) {
+      closeModal(modalMusic);
+      alert('Music Uploaded successfully');
+    }
+  });
+});
 
 // Update music
 btnUpdate.addEventListener('click', (e) => {

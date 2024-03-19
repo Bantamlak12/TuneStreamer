@@ -7,7 +7,7 @@ const btnUpdate = document.getElementById('btn-update');
 const btnDeleteAllTrucks = document.getElementById('btn-delete-all');
 const btnSearch = document.getElementById('search');
 const searchInput = document.getElementById('input');
-const selectedOption = document.getElementById('options');
+// const selectedOption = document.getElementById('options');
 const modalMusic = document.querySelector('.modal-music');
 const modalUpdate = document.querySelector('.modal-update');
 const overlay = document.querySelector('.overlay');
@@ -97,16 +97,22 @@ const resetMusic = (currentPlayingAudio, currentPlayingAudioIcon) => {
   currentPlayingAudio.currentTime = 0;
 };
 
-const confirmAndDeleteSong = (songId) => {
+const confirmAndDeleteSong = (songId, imageURL, musicURL) => {
   const isConfirmed = confirm(
     'Are you sure you want to delete this music? This action is irreversible.'
   );
 
   // If confirmed delete the song
   if (isConfirmed) {
-    console.log(`Song with ID: ${songId} is deleted.`);
-  } else {
-    console.log('Song deletion canceled.');
+    fetch('/admin/musics/music', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ songId, imageURL, musicURL }),
+    }).then((res) => {
+      if (res.ok) window.location.assign('/admin/musics');
+    });
   }
 };
 
@@ -262,7 +268,13 @@ document.addEventListener('click', (e) => {
   const song = musicDetails.querySelector('#song-id');
   if (song) {
     const songId = song.textContent;
-    confirmAndDeleteSong(songId);
+    const imageURL = musicDetails
+      .querySelector('.music-cover-image')
+      .getAttribute('src');
+    const musicURL = musicDetails
+      .querySelector('.audioFile')
+      .getAttribute('src');
+    confirmAndDeleteSong(songId, imageURL, musicURL);
   }
 });
 
@@ -293,6 +305,7 @@ btnMusicSubmit.addEventListener('click', (e) => {
   }).then(async (res) => {
     if (res.status === 201) {
       closeModal(modalMusic);
+      window.location.assign('/admin/musics');
       alert('Music Uploaded successfully');
     }
   });

@@ -156,8 +156,7 @@ body {
   width: 25px;
   cursor: pointer;
 }
-.search-input,
-.options {
+.search-input {
   font-size: 1.7rem;
   padding: 1.2rem 2rem;
   border: none;
@@ -165,23 +164,14 @@ body {
   background: none;
 }
 .search-input::placeholder,
-.options,
 .search-icon {
   color: rgba(0, 0, 0, 0.5);
-}
-.search-input {
-  border-left: 1px solid #fff;
 }
 .search-input-user {
   border: none;
 }
 .search-icon:hover {
   transform: scale(1.1);
-}
-.options {
-  border: none;
-  margin-right: 1.5rem;
-  cursor: pointer;
 }
 /* ******************************************** */
 .player-container {

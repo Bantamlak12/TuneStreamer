@@ -2,23 +2,19 @@ const mongoose = require('mongoose');
 
 const musicSchema = new mongoose.Schema({
   audioFile: {
-    data: Buffer,
-    contentType: String,
-    required: [true, 'A music should have an audio file'],
+    type: String,
+    trim: true,
   },
-  audioCover: {
-    data: Buffer,
-    contentType: String,
-    required: [true, 'A music should have audio cover'],
+  coverImage: {
+    type: String,
+    trim: true,
   },
   title: {
     type: String,
-    required: [true, 'A music should have a title'],
     trim: true,
   },
   artist: {
     type: String,
-    required: [true, 'A music should have an artist'],
     trim: true,
   },
   album: {
@@ -27,15 +23,13 @@ const musicSchema = new mongoose.Schema({
   },
   genre: {
     type: String,
-    required: [true, 'A music should have an genre'],
     trim: true,
   },
   releaseYear: {
-    type: data,
-    required: [true, 'A music should have a release year'],
+    type: String,
   },
   duration: {
-    type: Number,
+    type: String,
     trim: true,
   },
   trackNumber: {
@@ -48,7 +42,6 @@ const musicSchema = new mongoose.Schema({
   },
   language: {
     type: String,
-    required: [true, 'A music should have a language'],
     trim: true,
   },
   lyric: {
@@ -59,18 +52,12 @@ const musicSchema = new mongoose.Schema({
     type: [String],
     trim: true,
   },
-  fileFormat: {
-    type: String,
-    required: [true, 'A music should have a file format'],
-    trim: true,
-  },
   fileSize: {
-    type: Number,
+    type: String,
     trim: true,
   },
   licenceInformation: {
     type: String,
-    required: [true, 'A music should have a licence information'],
     trim: true,
   },
   additionalNote: {

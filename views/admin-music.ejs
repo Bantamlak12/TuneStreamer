@@ -55,32 +55,35 @@
 
       <section class="section-search-result">
         <div class="music-search-result">
+          <% musics.forEach((music) => { %>
           <div class="music-details">
             <div class="music-cover-image-container">
-              <img class="music-cover-image" src="/images/google-icon.svg" />
+              <img class="music-cover-image" src="<%= music.coverImage %>" />
               <i class="fa-solid fa-play audioController"></i>
               <audio class="audio">
                 <source
-                  src="/media/83Crutch_-_Upbeat_Metal.mp3"
+                  class="audioFile"
+                  src="<%= music.audioFile %>"
                   type="audio/mp3"
                 />
               </audio>
             </div>
-            <p class="artist-name">Teddy</p>
-            <p class="song-title">Aydenegtim</p>
-            <span id="song-id">432432432</span>
+            <p class="artist-name"><%= music.artist %></p>
+            <p class="song-title"><%= music.title %></p>
+            <span id="song-id"><%= music.id %></span>
             <button class="delete">DELETE</button>
           </div>
+          <% }); %>
         </div>
       </section>
 
       <section class="player">
         <div class="player-container">
           <i class="fa-solid fa-x"></i>
-          <div class="track-detail">
-            <h1 class="artist">Adele</h1>
-            <p class="track-title">Some one like you</p>
-          </div>
+          <!-- <div class="track-detail">
+            <h1 class="artist"></h1>
+            <p class="track-title"></p>
+          </div> -->
           <div class="player-control">
             <span class="progress-timer"></span>
             <i class="fa-solid fa-backward"></i>

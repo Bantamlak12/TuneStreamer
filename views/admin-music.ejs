@@ -99,9 +99,9 @@
     <div class="modal-music hidden">
       <h2 class="modal-header">Add music</h2>
       <form
-        action="#"
+        action="/admin/musics/music"
         method="post"
-        class="modal-form"
+        class="modal-form formUpdate"
         enctype="multipart/form-data"
       >
         <div class="col-one">
@@ -110,13 +110,13 @@
           >
           <input type="file" id="audioFile" name="audioFile" accept="audio/*" />
 
-          <label for="audioImage"
+          <label for="coverImage"
             >Upload cover Art<span class="required-input">*</span></label
           >
           <input
             type="file"
-            id="audioImage"
-            name="audioImage"
+            id="coverImage"
+            name="coverImage"
             accept="image/*"
           />
 
@@ -160,13 +160,6 @@
 
           <label for="lyricist">Lyricist(s)</label>
           <input type="text" id="lyricist" name="lyricist" />
-
-          <label for="fileFormat"
-            >File Format (MP3, WAV, FLAC)<span class="required-input"
-              >*</span
-            ></label
-          >
-          <input type="text" id="fileFormat" name="fileFormat" />
 
           <label for="fileSize">File Size</label>
           <input type="text" id="fileSize" name="fileSize" />

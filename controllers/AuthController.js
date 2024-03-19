@@ -1,6 +1,7 @@
 const path = require('path');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const Music = require('../models/Music');
 const Admin = require('../models/Admin');
 
 class AuthController {
@@ -116,7 +117,8 @@ class AuthController {
   }
 
   static async getMusicsPage(req, res) {
-    res.render('admin-music');
+    const musics = await Music.find({});
+    res.status(200).render('admin-music', { musics });
   }
 
   static async getUsersPage(req, res) {

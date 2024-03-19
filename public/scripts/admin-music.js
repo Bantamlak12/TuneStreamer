@@ -139,6 +139,88 @@ const closeModal = function (modal) {
   overlay.classList.add('hidden');
   document.querySelector('body').style.overflowY = 'auto';
 };
+// SET ERROR MESSAGE
+const setError = (input) => {
+  input.style.boxShadow = 'none';
+  input.classList.add('error');
+};
+
+// SET SUCCESS MESSAGE
+const setSuccess = (input) => {
+  input.classList.remove('error');
+};
+
+// Validated form data
+const validated = (formData) => {
+  const audioFile = document.getElementById('audioFile');
+  const coverImage = document.getElementById('coverImage');
+  const title = document.getElementById('title');
+  const artist = document.getElementById('artist');
+  const genre = document.getElementById('genre');
+  const releaseYear = document.getElementById('releaseYear');
+  const language = document.getElementById('language');
+  const licence = document.getElementById('licence');
+
+  let isValid = true;
+
+  if (audioFile.value === '') {
+    setError(audioFile);
+    isValid = false;
+  } else {
+    setSuccess(audioFile);
+  }
+
+  if (coverImage.value === '') {
+    setError(coverImage);
+    isValid = false;
+  } else {
+    setSuccess(coverImage);
+  }
+
+  if (title.value === '') {
+    setError(title);
+    isValid = false;
+  } else {
+    setSuccess(title);
+  }
+
+  if (artist.value === '') {
+    setError(artist);
+    isValid = false;
+  } else {
+    setSuccess(artist);
+  }
+
+  if (genre.value === '') {
+    setError(genre);
+    isValid = false;
+  } else {
+    setSuccess(genre);
+  }
+
+  if (releaseYear.value === '') {
+    setError(releaseYear);
+    isValid = false;
+  } else {
+    setSuccess(releaseYear);
+  }
+
+  if (language.value === '') {
+    setError(language);
+    isValid = false;
+  } else {
+    setSuccess(language);
+  }
+
+  if (licence.value === '') {
+    setError(licence);
+    isValid = false;
+  } else {
+    setSuccess(licence);
+  }
+
+  return isValid;
+};
 // ************************************************************ //
 // EVENT LISTNER FOR FORM SUBMISSSION
 // ************************************************************ //
@@ -298,17 +380,21 @@ btnMusicSubmit.addEventListener('click', (e) => {
   e.preventDefault();
   const formData = new FormData(formUpdate);
 
-  // Send the music details to the backend
-  fetch('/admin/musics/music', {
-    method: 'POST',
-    body: formData,
-  }).then(async (res) => {
-    if (res.status === 201) {
-      closeModal(modalMusic);
-      window.location.assign('/admin/musics');
-      alert('Music Uploaded successfully');
-    }
-  });
+  const isValid = validated(formData);
+
+  if (isValid) {
+    // Send the music details to the backend
+    fetch('/admin/musics/music', {
+      method: 'POST',
+      body: formData,
+    }).then(async (res) => {
+      if (res.status === 201) {
+        closeModal(modalMusic);
+        window.location.assign('/admin/musics');
+        alert('Music Uploaded successfully');
+      }
+    });
+  }
 });
 
 // Update music

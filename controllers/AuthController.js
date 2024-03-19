@@ -1,4 +1,3 @@
-const path = require('path');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Music = require('../models/Music');

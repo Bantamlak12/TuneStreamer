@@ -175,32 +175,24 @@
         <input
           class="search-input-to-update"
           type="text"
-          placeholder="Search by title"
+          placeholder="Search by Id"
         />
         <button class="btn-search-to-update">Search</button>
       </div>
       <form
-        action="#"
+        action="/musics/music/update"
         method="post"
         class="modal-form modal-form-update"
         enctype="multipart/form-data"
       >
         <div class="col-one">
-          <label for="updatedcoverArt">Upload cover Art</label>
-          <input
-            type="file"
-            id="updatedcoverArt"
-            name="coverArt"
-            accept="image/*"
-          />
-
           <label for="updatedTitle">Title</label>
           <input type="text" id="updatedTitle" name="title" />
 
           <label for="updatedArtist">Artist</label>
           <input type="text" id="updatedArtist" name="artist" />
 
-          <label for="UpdatedAlbum">Albem</label>
+          <label for="UpdatedAlbum">Album</label>
           <input type="text" id="UpdatedAlbum" name="album" />
 
           <label for="updatedGenre">Genre</label>
@@ -234,9 +226,6 @@
 
           <label for="updatedLyricist">Lyricist(s)</label>
           <input type="text" id="updatedLyricist" name="lyricist" />
-
-          <label for="updatedFileFormat">File Format (MP3, WAV, FLAC)</label>
-          <input type="text" id="updatedFileFormat" name="fileFormat" />
 
           <label for="updatedFileSize">File Size</label>
           <input type="text" id="updatedFileSize" name="fileSize" />

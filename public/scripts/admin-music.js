@@ -84,23 +84,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const handleSearch = () => {
-  if (searchInput.value !== '') {
-    const searchingWord = searchInput.value;
-    // SEND THE REQUEST TO BACKEND HERE
-    fetch('/music/search', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ searchingWord }),
-    })
-      .then((res) => res.json())
-      .then((musics) => {
-        const musicContainer = document.querySelector('.music-search-result');
-        musicContainer.innerHTML = '';
-        renderMusics(musics);
-      });
-  }
+  const searchingWord = searchInput.value;
+  // SEND THE REQUEST TO BACKEND HERE
+  fetch('/music/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ searchingWord }),
+  })
+    .then((res) => res.json())
+    .then((musics) => {
+      const musicContainer = document.querySelector('.music-search-result');
+      musicContainer.innerHTML = '';
+      renderMusics(musics);
+    });
 };
 
 // Time formater

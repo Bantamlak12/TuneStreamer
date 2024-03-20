@@ -42,40 +42,44 @@ let currentPlayingAudioIcon = null;
 // ************************************************************ //
 let currentAudio = null;
 
+const renderMusics = (musics) => {
+  musics.forEach((music) => {
+    const musicContainer = document.querySelector('.music-search-result');
+
+    const musicElement = document.createElement('div');
+    musicElement.classList.add('music-details');
+    musicElement.innerHTML = `
+        <div class="music-cover-image-container">
+          <img
+            class="music-cover-image"
+            style="height: 130px"
+            src="${music.coverImage}"
+          />
+          <i class="fa-solid fa-play audioController"></i>
+          <audio class="audio">
+            <source
+              class="audioFile"
+              src="${music.audioFile}"
+              type="audio/mp3"
+            />
+          </audio>
+        </div>
+        <p class="artist-name">${music.artist}</p>
+        <p class="song-title">${music.title}</p>
+        <span id="song-id">${music._id}</span>
+        <button class="delete">DELETE</button>
+    `;
+
+    musicContainer.appendChild(musicElement);
+  });
+};
+
 // Fetch all musics when page loads and display
 document.addEventListener('DOMContentLoaded', () => {
   fetch('/musics')
     .then((res) => res.json())
     .then((musics) => {
-      const musicContainer = document.querySelector('.music-search-result');
-
-      musics.forEach((music) => {
-        const musicElement = document.createElement('div');
-        musicElement.classList.add('music-details');
-        musicElement.innerHTML = `
-            <div class="music-cover-image-container">
-              <img
-                class="music-cover-image"
-                style="height: 130px"
-                src="${music.coverImage}"
-              />
-              <i class="fa-solid fa-play audioController"></i>
-              <audio class="audio">
-                <source
-                  class="audioFile"
-                  src="${music.audioFile}"
-                  type="audio/mp3"
-                />
-              </audio>
-            </div>
-            <p class="artist-name">${music.artist}</p>
-            <p class="song-title">${music.title}</p>
-            <span id="song-id">${music._id}</span>
-            <button class="delete">DELETE</button>
-        `;
-
-        musicContainer.appendChild(musicElement);
-      });
+      renderMusics(musics);
     });
 });
 
@@ -92,7 +96,9 @@ const handleSearch = () => {
     })
       .then((res) => res.json())
       .then((musics) => {
-        console.log(musics);
+        const musicContainer = document.querySelector('.music-search-result');
+        musicContainer.innerHTML = '';
+        renderMusics(musics);
       });
   }
 };

@@ -116,8 +116,7 @@ class AuthController {
   }
 
   static async getMusicsPage(req, res) {
-    const musics = await Music.find({});
-    res.status(200).render('admin-music', { musics });
+    res.status(200).render('admin-music');
   }
 
   static async getUsersPage(req, res) {

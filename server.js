@@ -119,7 +119,7 @@ app.get(
         await newUser.save();
       }
 
-      req.session.isAuthenticated = true;
+      req.session.isUserAuthenticated = true;
       res.redirect('/dashboard');
     } catch (error) {
       console.error(`Error saving user data: ${error.message}`);

@@ -179,7 +179,12 @@ const confirmAndDeleteAllSongs = () => {
 
   // If confirmed delete the song
   if (isConfirmed) {
-    console.log('Confirmed to delete all songs.');
+    fetch('/musics', { method: 'DELETE' }).then((res) => {
+      if (res.status === 204) {
+        const musicContainer = document.querySelector('.music-search-result');
+        musicContainer.innerHTML = '';
+      }
+    });
   }
 };
 

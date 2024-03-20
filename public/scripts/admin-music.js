@@ -7,7 +7,6 @@ const btnUpdate = document.getElementById('btn-update');
 const btnDeleteAllTrucks = document.getElementById('btn-delete-all');
 const btnSearch = document.getElementById('search');
 const searchInput = document.getElementById('input');
-// const selectedOption = document.getElementById('options');
 const modalMusic = document.querySelector('.modal-music');
 const modalUpdate = document.querySelector('.modal-update');
 const overlay = document.querySelector('.overlay');
@@ -16,7 +15,7 @@ const updateMusic = document.getElementById('btn-update');
 const btnMusicCancel = document.querySelector('.btn-music-cancel');
 const btnUpdateCancel = document.querySelector('.btn-update-cancel');
 
-const formUpdate = document.querySelector('.formUpdate');
+const formAddMusic = document.querySelector('.formAddMusic');
 const btnMusicSubmit = document.querySelector('.btn-music-submit');
 // const btnMusicUpdate = document.querySelector('.btn-update-submit');
 const btnSearchToUpdate = document.querySelector('.btn-search-to-update');
@@ -43,15 +42,59 @@ let currentPlayingAudioIcon = null;
 // ************************************************************ //
 let currentAudio = null;
 
+// Fetch all musics when page loads and display
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('/musics')
+    .then((res) => res.json())
+    .then((musics) => {
+      const musicContainer = document.querySelector('.music-search-result');
+
+      musics.forEach((music) => {
+        const musicElement = document.createElement('div');
+        musicElement.classList.add('music-details');
+        musicElement.innerHTML = `
+            <div class="music-cover-image-container">
+              <img
+                class="music-cover-image"
+                style="height: 130px"
+                src="${music.coverImage}"
+              />
+              <i class="fa-solid fa-play audioController"></i>
+              <audio class="audio">
+                <source
+                  class="audioFile"
+                  src="${music.audioFile}"
+                  type="audio/mp3"
+                />
+              </audio>
+            </div>
+            <p class="artist-name">${music.artist}</p>
+            <p class="song-title">${music.title}</p>
+            <span id="song-id">${music._id}</span>
+            <button class="delete">DELETE</button>
+        `;
+
+        musicContainer.appendChild(musicElement);
+      });
+    });
+});
+
 const handleSearch = () => {
-  const searchObj = {};
-
   if (searchInput.value !== '') {
-    searchObj[selectedOption.value] = searchInput.value;
+    const searchingWord = searchInput.value;
+    // SEND THE REQUEST TO BACKEND HERE
+    fetch('/music/search', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ searchingWord }),
+    })
+      .then((res) => res.json())
+      .then((musics) => {
+        console.log(musics);
+      });
   }
-
-  // SEND THE REQUEST TO BACKEND HERE
-  console.log(searchObj);
 };
 
 // Time formater
@@ -111,7 +154,15 @@ const confirmAndDeleteSong = (songId, imageURL, musicURL) => {
       },
       body: JSON.stringify({ songId, imageURL, musicURL }),
     }).then((res) => {
-      if (res.ok) window.location.assign('/admin/musics');
+      if (res.status === 204) {
+        const allSpans = document.querySelectorAll('span');
+        spanWithId = Array.from(allSpans).find(
+          (span) => span.innerText === songId
+        );
+        const musicDetails = spanWithId.closest('.music-details');
+
+        musicDetails.remove();
+      }
     });
   }
 };
@@ -260,7 +311,6 @@ btnSearch.addEventListener('click', (e) => {
 
 // Triggering search icon
 searchInput.addEventListener('keypress', (e) => {
-  e.preventDefault();
   if (e.key === 'Enter') {
     handleSearch();
   }
@@ -378,7 +428,7 @@ btnMusicCancel.addEventListener('click', (e) => {
 });
 btnMusicSubmit.addEventListener('click', (e) => {
   e.preventDefault();
-  const formData = new FormData(formUpdate);
+  const formData = new FormData(formAddMusic);
 
   const isValid = validated(formData);
 
@@ -389,8 +439,38 @@ btnMusicSubmit.addEventListener('click', (e) => {
       body: formData,
     }).then(async (res) => {
       if (res.status === 201) {
+        const music = await res.json();
+
+        const musicContainer = document.querySelector('.music-search-result');
+
+        const musicElement = document.createElement('div');
+        musicElement.classList.add('music-details');
+        musicElement.innerHTML = `
+              <div class="music-cover-image-container">
+                <img
+                  class="music-cover-image"
+                  style="height: 130px"
+                  src="${music.coverImage}"
+                />
+                <i class="fa-solid fa-play audioController"></i>
+                <audio class="audio">
+                  <source
+                    class="audioFile"
+                    src="${music.audioFile}"
+                    type="audio/mp3"
+                  />
+                </audio>
+              </div>
+              <p class="artist-name">${music.artist}</p>
+              <p class="song-title">${music.title}</p>
+              <span id="song-id">${music._id}</span>
+              <button class="delete">DELETE</button>
+          `;
+
+        musicContainer.insertAdjacentElement('beforeend', musicElement);
+
         closeModal(modalMusic);
-        window.location.assign('/admin/musics');
+        formAddMusic.reset();
         alert('Music Uploaded successfully');
       }
     });

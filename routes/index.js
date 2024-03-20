@@ -35,6 +35,6 @@ router.delete(
 );
 
 router.get('/musics', adminRequireAuth, MusicController.renderMusic);
-// router.post('/music/search', adminRequireAuth, MusicController.getMusic);
+router.post('/music/search', adminRequireAuth, MusicController.getMusic);
 
 module.exports = router;

@@ -90,6 +90,8 @@ class MusicController {
         searchResult = await Music.find({
           $or: [{ title: searchingWord }, { artist: searchingWord }],
         });
+      } else {
+        searchResult = await Music.find({});
       }
 
       if (searchResult.length === 0) {

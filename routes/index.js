@@ -36,6 +36,7 @@ router.delete(
 router.delete('/musics', adminRequireAuth, MusicController.deleteAllMusics);
 router.get('/musics', adminRequireAuth, MusicController.renderMusic);
 router.post('/music/search', adminRequireAuth, MusicController.getMusic);
+router.post('/music/id', adminRequireAuth, MusicController.getMusicById);
 router.put(
   '/musics/music/update',
   adminRequireAuth,

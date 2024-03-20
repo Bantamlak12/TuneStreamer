@@ -133,10 +133,44 @@ class MusicController {
     }
   }
 
-  // Render music
+  // RENDER MUSICs TO THE PAGE
   static async renderMusic(req, res) {
     const musics = await Music.find({});
     res.status(200).json(musics);
+  }
+
+  // UPDATE A MUSIC
+  static async updateMusic(req, res) {
+    try {
+      const updatedMusic = await Music.findOneAndUpdate(
+        { title: req.body.title },
+        { artist: req.body.artist },
+        { album: req.body.album },
+        { genre: req.body.genre },
+        { releaseYear: req.body.releaseYear },
+        { duration: req.body.duration },
+        { trackNumber: req.body.trackNumber },
+        { composer: req.body.composer },
+        { language: req.body.language },
+        { lyric: req.body.lyric },
+        { lyricist: req.body.lyricist },
+        { fileSize: req.body.files },
+        { licence: req.body.licence },
+        { additionalNote: req.body.additionalNote },
+        { new: true, runValidators: true }
+      );
+
+      if (!updatedMusic) {
+        return res.status(404).json({ error: 'Music not found' });
+      }
+
+      return res.status(200).json(updatedMusic);
+    } catch (error) {
+      console.log(`Error while updating a music: ${error.message}`);
+      return res
+        .status(500)
+        .json({ error: 'An error occured while updating a music' });
+    }
   }
 }
 

@@ -16,8 +16,9 @@ const btnMusicCancel = document.querySelector('.btn-music-cancel');
 const btnUpdateCancel = document.querySelector('.btn-update-cancel');
 
 const formAddMusic = document.querySelector('.formAddMusic');
+const formUpdateMusic = document.querySelector('.modal-form-update');
 const btnMusicSubmit = document.querySelector('.btn-music-submit');
-// const btnMusicUpdate = document.querySelector('.btn-update-submit');
+const btnMusicUpdate = document.querySelector('.btn-update-submit');
 const btnSearchToUpdate = document.querySelector('.btn-search-to-update');
 const searchInputToUpdate = document.querySelector('.search-input-to-update');
 
@@ -434,6 +435,7 @@ btnAdd.addEventListener('click', (e) => {
 btnMusicCancel.addEventListener('click', (e) => {
   e.preventDefault();
   closeModal(modalMusic);
+  formAddMusic.reset();
 });
 btnMusicSubmit.addEventListener('click', (e) => {
   e.preventDefault();
@@ -494,21 +496,71 @@ btnUpdate.addEventListener('click', (e) => {
 btnUpdateCancel.addEventListener('click', (e) => {
   e.preventDefault();
   closeModal(modalUpdate);
+  formUpdateMusic.reset();
 });
 
 // Search input
 btnSearchToUpdate.addEventListener('click', (e) => {
   e.preventDefault();
-  if (searchInputToUpdate.value.trim() === '') {
+
+  const updatedTitle = document.getElementById('updatedTitle');
+  const updatedArtist = document.getElementById('updatedArtist');
+  const UpdatedAlbum = document.getElementById('UpdatedAlbum');
+  const updatedGenre = document.getElementById('updatedGenre');
+  const updatedReleaseYear = document.getElementById('updatedReleaseYear');
+  const updatedDuration = document.getElementById('updatedDuration');
+  const updatedTrackNumber = document.getElementById('updatedTrackNumber');
+  const updatedComposer = document.getElementById('updatedComposer');
+  const updatedLanguage = document.getElementById('updatedLanguage');
+  const updatedLyric = document.getElementById('updatedLyric');
+  const updatedLyricist = document.getElementById('updatedLyricist');
+  const updatedFileSize = document.getElementById('updatedFileSize');
+  const updatedLicence = document.getElementById('updatedLicence');
+  const updatedAdditionalNote = document.getElementById(
+    'updatedAdditionalNote'
+  );
+
+  const searchString = searchInputToUpdate.value.trim();
+  if (searchString === '') {
     return;
   }
-  const titleObj = JSON.stringify({ title: searchInputToUpdate.value.trim() });
-  // SEND A POST REQUEST AND GET ALL INFORMATION AND FILL IT IN THE FIELD.
+  searchInputToUpdate.value.trim();
+  // SEND A POST REQUEST AND GET ALL INFORMATION AND FILL OUT THE FIELD.
+  fetch('/music/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ searchString }),
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .then((data) => {
+      updatedTitle.value = data[0].title;
+      updatedArtist.value = data[0].artist;
+      UpdatedAlbum.value = data[0].album;
+      updatedGenre.value = data[0].genre;
+      updatedReleaseYear.value = data[0].releaseYear;
+      updatedDuration.value = data[0].duration;
+      updatedTrackNumber.value = data[0].trackNumber;
+      updatedComposer.value = data[0].composer;
+      updatedLanguage.value = data[0].language;
+      updatedLyric.value = data[0].lyric;
+      updatedLyricist.value = data[0].lyricist;
+      updatedFileSize.value = data[0].fileSize;
+      updatedLicence.value = data[0].licence;
+      updatedAdditionalNote.value = data[0].additionalNote;
+    })
+    .catch((error) => {
+      return;
+    });
 });
 
 // btnMusicUpdate.addEventListener('click', (e) => {
 //   e.preventDefault();
-//   const form = document.querySelector('.modal-form-update');
 //   const updateObj = new FormData(form);
 //   for (const [key, value] of updateObj) {
 //     updateObj[key] = value;

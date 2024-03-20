@@ -33,7 +33,7 @@ router.delete(
   adminRequireAuth,
   MusicController.deleteMusic
 );
-
+router.delete('/musics', adminRequireAuth, MusicController.deleteAllMusics);
 router.get('/musics', adminRequireAuth, MusicController.renderMusic);
 router.post('/music/search', adminRequireAuth, MusicController.getMusic);
 

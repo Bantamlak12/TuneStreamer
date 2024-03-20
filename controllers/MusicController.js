@@ -81,6 +81,32 @@ class MusicController {
   }
 
   // DELETE ALL MUSIC
+  static async deleteAllMusics(req, res) {
+    try {
+      // Delete music documents from the mongoose database
+      await Music.deleteMany({});
+
+      // Delete music documents like image and audio file from local storage
+      const uploadsDirectory = path.join(__dirname, '../public', '/uploads');
+      if (fs.existsSync(uploadsDirectory)) {
+        fs.readdirSync(uploadsDirectory).forEach((file) => {
+          const filePath = path.join(uploadsDirectory, file);
+          fs.unlinkSync(filePath);
+        });
+      }
+
+      return res
+        .status(204)
+        .json({ message: 'All musics data deleted successfully' });
+    } catch (error) {
+      console.log(`Error deleting all musics: ${error.message}`);
+      return res
+        .status(500)
+        .json({ error: 'An error occured while deleting all musics' });
+    }
+  }
+
+  // SEARCH A MUSIC OR GET ALL MUSICS
   static async getMusic(req, res) {
     try {
       const { searchingWord } = req.body;

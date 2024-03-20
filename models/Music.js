@@ -33,7 +33,7 @@ const musicSchema = new mongoose.Schema({
     trim: true,
   },
   trackNumber: {
-    type: Number,
+    type: String,
     trim: true,
   },
   composers: {

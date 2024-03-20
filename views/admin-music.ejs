@@ -54,31 +54,7 @@
       </section>
 
       <section class="section-search-result">
-        <div class="music-search-result">
-          <% musics.forEach((music) => { %>
-          <div class="music-details">
-            <div class="music-cover-image-container">
-              <img
-                class="music-cover-image"
-                style="height: 130px"
-                src="<%= music.coverImage %>"
-              />
-              <i class="fa-solid fa-play audioController"></i>
-              <audio class="audio">
-                <source
-                  class="audioFile"
-                  src="<%= music.audioFile %>"
-                  type="audio/mp3"
-                />
-              </audio>
-            </div>
-            <p class="artist-name"><%= music.artist %></p>
-            <p class="song-title"><%= music.title %></p>
-            <span id="song-id"><%= music.id %></span>
-            <button class="delete">DELETE</button>
-          </div>
-          <% }); %>
-        </div>
+        <div class="music-search-result"></div>
       </section>
 
       <section class="player">
@@ -104,7 +80,7 @@
       <form
         action="/admin/musics/music"
         method="post"
-        class="modal-form formUpdate"
+        class="modal-form formAddMusic"
         enctype="multipart/form-data"
       >
         <div class="col-one">

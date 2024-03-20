@@ -93,12 +93,16 @@ class AuthController {
       return res.status(400).json({ error: true });
     }
 
+    if (!user.password) {
+      return res.status(400).json({ error: true });
+    }
+
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
       return res.status(400).json({ error: true });
     }
 
-    req.session.isAuthenticated = true;
+    req.session.isUserAuthenticated = true;
     return res
       .status(200)
       .json({ isAdmin: false, message: 'Signed in successfully' });

@@ -129,9 +129,7 @@ btnDeleteAll.addEventListener('click', (e) => {
       },
     }).then((res) => {
       if (res.ok) {
-        console.log('All users deleted successfully');
-      } else {
-        console.error('Failed to delete users');
+        alert('All users deleted successfully');
       }
     });
   }
@@ -173,6 +171,7 @@ btnUpdateUser.addEventListener('click', (e) => {
     })
       .then((res) => {
         if (res.ok) {
+          alert('User updated successfully');
           userInfoForm.reset();
         }
       })
@@ -204,6 +203,7 @@ btnDeleteUser.addEventListener('click', (e) => {
     }).then((res) => {
       if (res.ok) {
         userInfoForm.reset();
+        alert('User deleted successfully');
       }
     });
   }

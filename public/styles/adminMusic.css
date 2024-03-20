@@ -258,12 +258,15 @@ body {
   text-align: center;
   justify-self: center;
   box-shadow: 4px 6px 16px rgba(0, 0, 0, 0.5);
+  position: relative;
 }
 .music-cover-image-container {
   position: relative;
   display: inline-block;
 }
 .delete {
+  position: absolute;
+  bottom: -15%;
   width: 100%;
   background-color: #f44336;
   font-weight: 500;

@@ -31,8 +31,6 @@ const playerController = document.querySelector('.playerController');
 const progressTimer = document.querySelector('.progress-timer');
 const endTimer = document.querySelector('.end-timer');
 
-const audioFileInput = document.getElementById('audioFile');
-
 /****************************************/
 let currentPlayingAudio = null;
 let currentPlayingAudioIcon = null;
@@ -482,7 +480,7 @@ btnMusicSubmit.addEventListener('click', (e) => {
 
         closeModal(modalMusic);
         formAddMusic.reset();
-        alert('Music Uploaded successfully');
+        alert('Music uploaded successfully');
       }
     });
   }
@@ -559,19 +557,26 @@ btnSearchToUpdate.addEventListener('click', (e) => {
     });
 });
 
-// btnMusicUpdate.addEventListener('click', (e) => {
-//   e.preventDefault();
-//   const updateObj = new FormData(form);
-//   for (const [key, value] of updateObj) {
-//     updateObj[key] = value;
-//   }
-//   console.log(updateObj);
-//   console.log('Music updated');
-// });
+btnMusicUpdate.addEventListener('click', (e) => {
+  e.preventDefault();
+  const formData = new FormData(formUpdateMusic);
+  const updatedMusic = {};
 
-////////////////////////////////////////
-// Adio fille
-// audioFileInput.addEventListener('click', (e) => {
-//   const file = e.target.file[0];
-//   console.log(file);
-// });
+  for (const [key, value] of formData) {
+    updatedMusic[key] = value;
+  }
+
+  fetch('/musics/music/update', {
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updatedMusic),
+  }).then((res) => {
+    if (res.ok) {
+      closeModal(modalUpdate);
+      formUpdateMusic.reset();
+      alert('Music updated successfully');
+    }
+  });
+});

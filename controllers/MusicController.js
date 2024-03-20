@@ -37,11 +37,9 @@ class MusicController {
         additionalNote: req.body.additionalNote,
       });
 
-      await newMusic.save();
+      const addedMusic = await newMusic.save();
 
-      return res
-        .status(201)
-        .json({ message: 'Music added to database successfully' });
+      return res.status(201).json(addedMusic);
     } catch (error) {
       console.log(`Error uploading a music: ${error.message}`);
       return res
@@ -50,7 +48,7 @@ class MusicController {
     }
   }
 
-  // GET ALL MUSICS
+  // DELETE A SINGLE MUSIC
   static async deleteMusic(req, res) {
     try {
       const { songId, imageURL, musicURL } = req.body;
@@ -73,13 +71,44 @@ class MusicController {
         fs.unlinkSync(musicpath);
       }
 
-      return res.status(200).json({ message: 'Music deleted successfully' });
+      return res.status(204).json(deletedMusic);
     } catch (error) {
       console.log(`Error getting all musics: ${error.message}`);
       return res
         .status(500)
         .json({ error: 'An error occured while getting all musics' });
     }
+  }
+
+  // DELETE ALL MUSIC
+  static async getMusic(req, res) {
+    try {
+      const { searchingWord } = req.body;
+      let searchResult;
+
+      if (searchingWord) {
+        searchResult = await Music.find({
+          $or: [{ title: searchingWord }, { artist: searchingWord }],
+        });
+      }
+
+      if (searchResult.length === 0) {
+        searchResult = await Music.find({});
+      }
+
+      return res.status(200).json(searchResult);
+    } catch (error) {
+      console.log(`Error while searching a music: ${error.message}`);
+      return res
+        .status(500)
+        .json({ error: 'An error occured while searching a music' });
+    }
+  }
+
+  // Render music
+  static async renderMusic(req, res) {
+    const musics = await Music.find({});
+    res.status(200).json(musics);
   }
 }
 

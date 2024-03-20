@@ -1,5 +1,6 @@
 const Music = require('../models/Music');
 const fs = require('fs');
+const { ObjectId } = require('mongodb');
 const path = require('path');
 
 class MusicController {
@@ -28,12 +29,12 @@ class MusicController {
         releaseYear: req.body.releaseYear,
         duration: req.body.duration,
         trackNumber: req.body.trackNumber,
-        composer: req.body.composer,
-        language: req.body.composer,
+        composers: req.body.composers,
+        language: req.body.language,
         lyric: req.body.lyric,
-        lyricist: req.body.lyricist,
+        lyricists: req.body.lyricists,
         fileSize: req.body.fileSize,
-        licence: req.body.fileSize,
+        licence: req.body.licence,
         additionalNote: req.body.additionalNote,
       });
 
@@ -133,6 +134,29 @@ class MusicController {
     }
   }
 
+  // GET MUSIC BY ID
+  static async getMusicById(req, res) {
+    try {
+      const { id } = req.body;
+
+      if (!ObjectId.isValid(id)) {
+        return res.status(400).json({ error: 'Invalid ObjectId' });
+      }
+
+      const music = await Music.find({ _id: id });
+      if (!music) {
+        return res.status(404).json({ error: 'Music not found' });
+      }
+
+      return res.status(200).json(music);
+    } catch (error) {
+      console.log(`Error while searching a music by Id: ${error.message}`);
+      return res
+        .status(500)
+        .json({ error: 'An error occured while searching a music by Id' });
+    }
+  }
+
   // RENDER MUSICs TO THE PAGE
   static async renderMusic(req, res) {
     const musics = await Music.find({});
@@ -143,20 +167,25 @@ class MusicController {
   static async updateMusic(req, res) {
     try {
       const updatedMusic = await Music.findOneAndUpdate(
-        { title: req.body.title },
-        { artist: req.body.artist },
-        { album: req.body.album },
-        { genre: req.body.genre },
-        { releaseYear: req.body.releaseYear },
-        { duration: req.body.duration },
-        { trackNumber: req.body.trackNumber },
-        { composer: req.body.composer },
-        { language: req.body.language },
-        { lyric: req.body.lyric },
-        { lyricist: req.body.lyricist },
-        { fileSize: req.body.files },
-        { licence: req.body.licence },
-        { additionalNote: req.body.additionalNote },
+        { _id: req.body.id },
+        {
+          $set: {
+            title: req.body.title,
+            artist: req.body.artist,
+            album: req.body.album,
+            genre: req.body.genre,
+            releaseYear: req.body.releaseYear,
+            duration: req.body.duration,
+            trackNumber: req.body.trackNumber,
+            composers: req.body.composers,
+            language: req.body.language,
+            lyric: req.body.lyric,
+            lyricists: req.body.lyricists,
+            fileSize: req.body.fileSize,
+            licence: req.body.licence,
+            additionalNote: req.body.additionalNote,
+          },
+        },
         { new: true, runValidators: true }
       );
 

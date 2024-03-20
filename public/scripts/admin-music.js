@@ -518,22 +518,24 @@ btnSearchToUpdate.addEventListener('click', (e) => {
     'updatedAdditionalNote'
   );
 
-  const searchString = searchInputToUpdate.value.trim();
-  if (searchString === '') {
+  const id = searchInputToUpdate.value.trim();
+  if (id === '') {
     return;
   }
   searchInputToUpdate.value.trim();
   // SEND A POST REQUEST AND GET ALL INFORMATION AND FILL OUT THE FIELD.
-  fetch('/music/search', {
+  fetch('/music/id', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ searchString }),
+    body: JSON.stringify({ id }),
   })
     .then((res) => {
       if (res.ok) {
         return res.json();
+      } else {
+        formUpdateMusic.reset();
       }
     })
     .then((data) => {
@@ -544,10 +546,10 @@ btnSearchToUpdate.addEventListener('click', (e) => {
       updatedReleaseYear.value = data[0].releaseYear;
       updatedDuration.value = data[0].duration;
       updatedTrackNumber.value = data[0].trackNumber;
-      updatedComposer.value = data[0].composer;
+      updatedComposer.value = data[0].composers;
       updatedLanguage.value = data[0].language;
       updatedLyric.value = data[0].lyric;
-      updatedLyricist.value = data[0].lyricist;
+      updatedLyricist.value = data[0].lyricists;
       updatedFileSize.value = data[0].fileSize;
       updatedLicence.value = data[0].licence;
       updatedAdditionalNote.value = data[0].additionalNote;
@@ -565,9 +567,13 @@ btnMusicUpdate.addEventListener('click', (e) => {
   for (const [key, value] of formData) {
     updatedMusic[key] = value;
   }
+  const id = searchInputToUpdate.value.trim();
+  if (id !== '') {
+    updatedMusic['id'] = id;
+  }
 
   fetch('/musics/music/update', {
-    method: 'put',
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },

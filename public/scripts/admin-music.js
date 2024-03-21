@@ -1,3 +1,6 @@
+// ************************************************************ //
+// SELECT DOM ELEMENTS TO BE USED
+// ************************************************************ //
 const html = document.querySelector('html');
 const adminProfile = document.querySelector('.admin-profile-logo');
 const menu = document.querySelector('.menu');
@@ -31,15 +34,9 @@ const playerController = document.querySelector('.playerController');
 const progressTimer = document.querySelector('.progress-timer');
 const endTimer = document.querySelector('.end-timer');
 
-/****************************************/
-let currentPlayingAudio = null;
-let currentPlayingAudioIcon = null;
-/****************************************/
-
 // ************************************************************ //
-// FUNCTIONS
+// DYNAMICALLY LOAD ALL MUSICS TO THE PAGE
 // ************************************************************ //
-let currentAudio = null;
 
 const renderMusics = (musics) => {
   musics.forEach((music) => {
@@ -82,6 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// ************************************************************ //
+// SEARCH A MUSIC
+// ************************************************************ //
 const handleSearch = () => {
   const searchingWord = searchInput.value;
   // SEND THE REQUEST TO BACKEND HERE
@@ -99,6 +99,71 @@ const handleSearch = () => {
       renderMusics(musics);
     });
 };
+
+// Search button
+btnSearch.addEventListener('click', (e) => {
+  e.preventDefault();
+  handleSearch();
+});
+
+// Searching with Enter key
+searchInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    handleSearch();
+  }
+});
+
+// ************************************************************ //
+// OPEN AND CLOSE THE MENU ON THE USER PROFILE
+// ************************************************************ //
+// Admin profile
+adminProfile.addEventListener('click', function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  menu.classList.toggle('open');
+});
+
+// Close the menu when clicking the html
+html.addEventListener('click', function (e) {
+  if (menu.classList.contains('open')) {
+    menu.classList.remove('open');
+  }
+});
+
+// ************************************************************ //
+// SIGN OUT A USER
+// ************************************************************ //
+document.querySelector('.link-sign-out').addEventListener('click', (e) => {
+  e.preventDefault();
+
+  fetch('/signout', {
+    method: 'post',
+  }).then((res) => {
+    if (res.ok) {
+      window.location.href = '/signin';
+    }
+  });
+});
+
+// ************************************************************ //
+// CLOSE THE MUSIC CONTROLLER
+// ************************************************************ //
+// Exiting the player
+x.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  playerContainer.style.display = 'none';
+});
+
+// ************************************************************ //
+// PLAYER CONTROL
+// ************************************************************ //
+/****************************************/
+let currentPlayingAudio = null;
+let currentPlayingAudioIcon = null;
+let currentAudio = null;
+/****************************************/
 
 // Time formater
 const formatTime = (seconds) => {
@@ -143,6 +208,69 @@ const resetMusic = (currentPlayingAudio, currentPlayingAudioIcon) => {
   currentPlayingAudio.currentTime = 0;
 };
 
+document.addEventListener('click', (e) => {
+  // Check if the doc has the fa-play class
+  const faPlay = e.target.classList.contains('fa-play');
+  const fapause = e.target.classList.contains('fa-pause');
+  if (faPlay || fapause) {
+    // Find the closest music-details class
+    musicDetails = e.target.closest('.music-details');
+
+    if (musicDetails) {
+      const audio = musicDetails.querySelector('.audio');
+      const iconOnCover = musicDetails.querySelector('.audioController');
+
+      // console.log(Array.from(e.target.parentNode.parentNode.children).indexOf(e.target.parentNode.parentNode))
+
+      playPause(audio, iconOnCover);
+    }
+  }
+});
+
+const playPause = (audio, iconOnCover) => {
+  // Update audio progress
+  audio.addEventListener('timeupdate', (e) => {
+    e.preventDefault();
+    const currentTime = audio.currentTime;
+    progressTimer.textContent = formatTime(currentTime);
+
+    // Toggle to play while song ends
+    if (audio.duration === currentTime) {
+      audio.currentTime = 0;
+      pauseAudio(audio, iconOnCover);
+    }
+  });
+
+  // Control audio: play and pause
+  if (iconOnCover.classList.contains('fa-play')) {
+    playAudio(audio, iconOnCover);
+  } else if (iconOnCover.classList.contains('fa-pause')) {
+    pauseAudio(audio, iconOnCover);
+  }
+};
+
+playerController.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (currentPlayingAudioIcon.classList.contains('fa-play')) {
+    playAudio(currentPlayingAudio, currentPlayingAudioIcon);
+  } else if (currentPlayingAudioIcon.classList.contains('fa-pause')) {
+    pauseAudio(currentPlayingAudio, currentPlayingAudioIcon);
+  }
+});
+
+btnBackward.addEventListener('click', (e) => {
+  e.preventDefault();
+  console.log('previous');
+});
+
+btnForward.addEventListener('click', (e) => {
+  e.preventDefault();
+  console.log('Next');
+});
+
+// ************************************************************ //
+// DELETE A MUSIC
+// ************************************************************ //
 const confirmAndDeleteSong = (songId, imageURL, musicURL) => {
   const isConfirmed = confirm(
     'Are you sure you want to delete this music? This action is irreversible.'
@@ -170,6 +298,32 @@ const confirmAndDeleteSong = (songId, imageURL, musicURL) => {
   }
 };
 
+// ************************************************************ //
+// GET THE MUSIC TO BE DELETED WITH EVENT DELEGATION
+// ************************************************************ //
+
+document.addEventListener('click', (e) => {
+  const musicDetails = e.target.closest('.music-details');
+
+  if (!e.target.closest('.delete')) {
+    return;
+  }
+  const song = musicDetails.querySelector('#song-id');
+  if (song) {
+    const songId = song.textContent;
+    const imageURL = musicDetails
+      .querySelector('.music-cover-image')
+      .getAttribute('src');
+    const musicURL = musicDetails
+      .querySelector('.audioFile')
+      .getAttribute('src');
+    confirmAndDeleteSong(songId, imageURL, musicURL);
+  }
+});
+
+// ************************************************************ //
+// DELETE ALL MUSICS
+// ************************************************************ //
 const confirmAndDeleteAllSongs = () => {
   const isConfirmed = confirm(
     'Are you sure you want to delete all musics? This action is irreversible\
@@ -187,6 +341,14 @@ const confirmAndDeleteAllSongs = () => {
   }
 };
 
+btnDeleteAllTrucks.addEventListener('click', (e) => {
+  e.preventDefault();
+  confirmAndDeleteAllSongs();
+});
+
+// ************************************************************ //
+// MODAL CONTROLLER AND INPUT VALIDATOR
+// ************************************************************ //
 const openModal = function (modal) {
   modal.classList.remove('hidden');
   overlay.classList.remove('hidden');
@@ -280,161 +442,26 @@ const validated = (formData) => {
 
   return isValid;
 };
-// ************************************************************ //
-// EVENT LISTNER FOR FORM SUBMISSSION
-// ************************************************************ //
-// Sign out the user
-document.querySelector('.link-sign-out').addEventListener('click', (e) => {
-  e.preventDefault();
-
-  fetch('/signout', {
-    method: 'post',
-  }).then((res) => {
-    if (res.ok) {
-      window.location.href = '/signin';
-    }
-  });
-});
-
-// Admin profile
-adminProfile.addEventListener('click', function (e) {
-  e.preventDefault();
-  e.stopPropagation();
-
-  menu.classList.toggle('open');
-});
-
-// Close the menu when clicking the html
-html.addEventListener('click', function (e) {
-  if (menu.classList.contains('open')) {
-    menu.classList.remove('open');
-  }
-});
-
-// Search button
-btnSearch.addEventListener('click', (e) => {
-  e.preventDefault();
-  handleSearch();
-});
-
-// Searching with Enter key
-searchInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') {
-    handleSearch();
-  }
-});
-
-// Exiting the player
-x.addEventListener('click', (e) => {
-  e.preventDefault();
-
-  playerContainer.style.display = 'none';
-});
 
 // ************************************************************ //
-// #74b357  PLAYER CONTROLLER: With event delegation
+// UPLOAD A MUSIC
 // ************************************************************ //
-
-document.addEventListener('click', (e) => {
-  // Check if the doc has the fa-play class
-  const faPlay = e.target.classList.contains('fa-play');
-  const fapause = e.target.classList.contains('fa-pause');
-  if (faPlay || fapause) {
-    // Find the closest music-details class
-    musicDetails = e.target.closest('.music-details');
-
-    if (musicDetails) {
-      const audio = musicDetails.querySelector('.audio');
-      const iconOnCover = musicDetails.querySelector('.audioController');
-
-      // console.log(Array.from(e.target.parentNode.parentNode.children).indexOf(e.target.parentNode.parentNode))
-
-      playPause(audio, iconOnCover);
-    }
-  }
-});
-
-const playPause = (audio, iconOnCover) => {
-  // Update audio progress
-  audio.addEventListener('timeupdate', (e) => {
-    e.preventDefault();
-    const currentTime = audio.currentTime;
-    progressTimer.textContent = formatTime(currentTime);
-
-    // Toggle to play while song ends
-    if (audio.duration === currentTime) {
-      audio.currentTime = 0;
-      pauseAudio(audio, iconOnCover);
-    }
-  });
-
-  // Control audio: play and pause
-  if (iconOnCover.classList.contains('fa-play')) {
-    playAudio(audio, iconOnCover);
-  } else if (iconOnCover.classList.contains('fa-pause')) {
-    pauseAudio(audio, iconOnCover);
-  }
-};
-
-playerController.addEventListener('click', (e) => {
-  e.preventDefault();
-  if (currentPlayingAudioIcon.classList.contains('fa-play')) {
-    playAudio(currentPlayingAudio, currentPlayingAudioIcon);
-  } else if (currentPlayingAudioIcon.classList.contains('fa-pause')) {
-    pauseAudio(currentPlayingAudio, currentPlayingAudioIcon);
-  }
-});
-
-btnBackward.addEventListener('click', (e) => {
-  e.preventDefault();
-  console.log('previous');
-});
-
-btnForward.addEventListener('click', (e) => {
-  e.preventDefault();
-  console.log('Next');
-});
-
-// ************************************************************ //
-// #f44336  PLAYER CONTROLLER: With event delegation
-// ************************************************************ //
-
-document.addEventListener('click', (e) => {
-  const musicDetails = e.target.closest('.music-details');
-
-  if (!e.target.closest('.delete')) {
-    return;
-  }
-  const song = musicDetails.querySelector('#song-id');
-  if (song) {
-    const songId = song.textContent;
-    const imageURL = musicDetails
-      .querySelector('.music-cover-image')
-      .getAttribute('src');
-    const musicURL = musicDetails
-      .querySelector('.audioFile')
-      .getAttribute('src');
-    confirmAndDeleteSong(songId, imageURL, musicURL);
-  }
-});
-
-btnDeleteAllTrucks.addEventListener('click', (e) => {
-  e.preventDefault();
-  confirmAndDeleteAllSongs();
-});
-// ************************************************************ //
-// #4caf50  Add music and update music
-// ************************************************************ //
-// Add music
 btnAdd.addEventListener('click', (e) => {
   e.preventDefault();
   openModal(modalMusic);
 });
+
 btnMusicCancel.addEventListener('click', (e) => {
   e.preventDefault();
+
+  const allInputFields = document.querySelectorAll('.formAddMusic input');
+
   closeModal(modalMusic);
   formAddMusic.reset();
+
+  allInputFields.forEach((input) => setSuccess(input));
 });
+
 btnMusicSubmit.addEventListener('click', (e) => {
   e.preventDefault();
   const formData = new FormData(formAddMusic);
@@ -486,7 +513,9 @@ btnMusicSubmit.addEventListener('click', (e) => {
   }
 });
 
-// Update music
+// ************************************************************ //
+// UPDATE A MUSIC
+// ************************************************************ //
 btnUpdate.addEventListener('click', (e) => {
   e.preventDefault();
   openModal(modalUpdate);
@@ -497,7 +526,9 @@ btnUpdateCancel.addEventListener('click', (e) => {
   formUpdateMusic.reset();
 });
 
-// Search input
+// ************************************************************ //
+// SEARCH AND DYNAMICALLY FILL OUT THE THE FORM
+// ************************************************************ //
 btnSearchToUpdate.addEventListener('click', (e) => {
   e.preventDefault();
 
@@ -559,6 +590,9 @@ btnSearchToUpdate.addEventListener('click', (e) => {
     });
 });
 
+// ************************************************************ //
+// UPDATE THE MUSIC DETAILS
+// ************************************************************ //
 btnMusicUpdate.addEventListener('click', (e) => {
   e.preventDefault();
   const formData = new FormData(formUpdateMusic);

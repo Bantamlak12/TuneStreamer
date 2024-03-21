@@ -4,14 +4,12 @@ const { ObjectId } = require('mongodb');
 const path = require('path');
 
 class MusicController {
-  // UPLOADING A MUSIC
+  // POST /admin/musics
   static async addMusic(req, res) {
     try {
       // Check if audioFile and coverImage exist in req.files
       if (!req.files || !req.files.audioFile || !req.files.coverImage) {
-        return res
-          .status(400)
-          .json({ error: 'Audio file and cover image are required' });
+        return res.status(400).json({ error: 'Audio file and cover image are required' });
       }
 
       // Get file data and content type from Multer
@@ -43,19 +41,19 @@ class MusicController {
       return res.status(201).json(addedMusic);
     } catch (error) {
       console.log(`Error uploading a music: ${error.message}`);
-      return res
-        .status(500)
-        .json({ error: 'An error occured while uploading a music' });
+      return res.status(500).json({ error: 'An error occured while uploading a music' });
     }
   }
 
-  // DELETE A SINGLE MUSIC
+  // DELETE /admin/musics/:id
   static async deleteMusic(req, res) {
     try {
-      const { songId, imageURL, musicURL } = req.body;
+      const id = req.params.id;
+
+      const { imageURL, musicURL } = req.body;
 
       const deletedMusic = await Music.findOneAndDelete({
-        _id: songId,
+        _id: id,
       });
       if (!deletedMusic) {
         return res.status(404).json({ error: 'Music not found' });
@@ -75,13 +73,11 @@ class MusicController {
       return res.status(204).json(deletedMusic);
     } catch (error) {
       console.log(`Error getting all musics: ${error.message}`);
-      return res
-        .status(500)
-        .json({ error: 'An error occured while getting all musics' });
+      return res.status(500).json({ error: 'An error occured while getting all musics' });
     }
   }
 
-  // DELETE ALL MUSIC
+  // DELETE /admin/musics
   static async deleteAllMusics(req, res) {
     try {
       // Delete music documents from the mongoose database
@@ -96,9 +92,7 @@ class MusicController {
         });
       }
 
-      return res
-        .status(204)
-        .json({ message: 'All musics data deleted successfully' });
+      return res.status(204).json({ message: 'All musics data deleted successfully' });
     } catch (error) {
       console.log(`Error deleting all musics: ${error.message}`);
       return res
@@ -107,8 +101,8 @@ class MusicController {
     }
   }
 
-  // SEARCH A MUSIC OR GET ALL MUSICS
-  static async getMusic(req, res) {
+  // GET /musics/search
+  static async searchMusic(req, res) {
     try {
       const { searchingWord } = req.body;
       let searchResult;
@@ -128,16 +122,14 @@ class MusicController {
       return res.status(200).json(searchResult);
     } catch (error) {
       console.log(`Error while searching a music: ${error.message}`);
-      return res
-        .status(500)
-        .json({ error: 'An error occured while searching a music' });
+      return res.status(500).json({ error: 'An error occured while searching a music' });
     }
   }
 
-  // GET MUSIC BY ID
+  // POST /admin/musics/:id
   static async getMusicById(req, res) {
     try {
-      const { id } = req.body;
+      const id = req.params.id;
 
       if (!ObjectId.isValid(id)) {
         return res.status(400).json({ error: 'Invalid ObjectId' });
@@ -157,17 +149,19 @@ class MusicController {
     }
   }
 
-  // RENDER MUSICs TO THE PAGE
-  static async renderMusic(req, res) {
+  // GET /musics
+  static async getAllMusics(req, res) {
     const musics = await Music.find({});
     res.status(200).json(musics);
   }
 
-  // UPDATE A MUSIC
+  // PUT /musics/music/:id
   static async updateMusic(req, res) {
     try {
+      const id = req.params.id;
+
       const updatedMusic = await Music.findOneAndUpdate(
-        { _id: req.body.id },
+        { _id: id },
         {
           $set: {
             title: req.body.title,
@@ -196,9 +190,7 @@ class MusicController {
       return res.status(200).json(updatedMusic);
     } catch (error) {
       console.log(`Error while updating a music: ${error.message}`);
-      return res
-        .status(500)
-        .json({ error: 'An error occured while updating a music' });
+      return res.status(500).json({ error: 'An error occured while updating a music' });
     }
   }
 }

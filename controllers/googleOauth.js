@@ -67,7 +67,7 @@ router.get(
       }
 
       req.session.isUserAuthenticated = true;
-      res.redirect('/dashboard');
+      res.redirect('/my-musics');
     } catch (error) {
       console.error(`Error saving user data: ${error.message}`);
       res.redirect('/signin');

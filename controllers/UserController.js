@@ -1,23 +1,10 @@
 const User = require('../models/User');
 
 class UserController {
-  // Delete all users
-  static async deleteAllUsers(req, res) {
-    try {
-      await User.deleteMany({});
-      res.status(200).json({ message: 'All users deleted successfully' });
-    } catch (error) {
-      console.log(`Error deleting all users: ${error.message}`);
-      return res
-        .status(500)
-        .json({ error: 'An error occured while deleting all users' });
-    }
-  }
-
-  // Get a user
+  // POST /admin/users/:email
   static async getUser(req, res) {
     try {
-      const email = req.body.email;
+      const email = req.params.email;
 
       if (!email) {
         return res.status(400).json({ error: 'Email is required' });
@@ -33,19 +20,19 @@ class UserController {
       return res.status(200).json(user);
     } catch (error) {
       console.log(`Error getting a user: ${error.message}`);
-      return res
-        .status(500)
-        .json({ error: 'An error occured while getting a user' });
+      return res.status(500).json({ error: 'An error occured while getting a user' });
     }
   }
 
-  //  Get the user updated
+  //  PUT /admin/users/:email
   static async updateUser(req, res) {
     try {
-      const { userEmail, firstName, lastName, email } = req.body;
+      const emailId = req.params.email;
+
+      const { firstName, lastName, email } = req.body;
 
       const updatedUser = await User.findOneAndUpdate(
-        { email: userEmail },
+        { email: emailId },
         { firstName, lastName, email },
         { new: true, runValidators: true } // new to return updated doc
       );
@@ -56,13 +43,11 @@ class UserController {
       return res.status(200).json(updatedUser);
     } catch (error) {
       console.log(`Error getting a user: ${error.message}`);
-      return res
-        .status(500)
-        .json({ error: 'An error occured while updating a user' });
+      return res.status(500).json({ error: 'An error occured while updating a user' });
     }
   }
 
-  // Delete a user
+  // DELETE /admin/users/:email
   static async deleteUser(req, res) {
     try {
       const { email } = req.body;
@@ -79,9 +64,18 @@ class UserController {
       res.status(200).json({ message: 'User deleted successfully' });
     } catch (err) {
       console.log(`Error deleting a user: ${error.message}`);
-      return res
-        .status(500)
-        .json({ error: 'An error occured while deleting a user' });
+      return res.status(500).json({ error: 'An error occured while deleting a user' });
+    }
+  }
+
+  // DELETE /admin/users
+  static async deleteAllUsers(req, res) {
+    try {
+      await User.deleteMany({});
+      res.status(200).json({ message: 'All users deleted successfully' });
+    } catch (error) {
+      console.log(`Error deleting all users: ${error.message}`);
+      return res.status(500).json({ error: 'An error occured while deleting all users' });
     }
   }
 }

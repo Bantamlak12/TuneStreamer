@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const handleSearch = () => {
   const searchingWord = searchInput.value;
   // SEND THE REQUEST TO BACKEND HERE
-  fetch('/music/search', {
+  fetch('/musics/search', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -137,8 +137,8 @@ html.addEventListener('click', function (e) {
 document.querySelector('.link-sign-out').addEventListener('click', (e) => {
   e.preventDefault();
 
-  fetch('/signout', {
-    method: 'post',
+  fetch('/auth/signout', {
+    method: 'POST',
   }).then((res) => {
     if (res.ok) {
       window.location.href = '/signin';
@@ -271,25 +271,23 @@ btnForward.addEventListener('click', (e) => {
 // ************************************************************ //
 // DELETE A MUSIC
 // ************************************************************ //
-const confirmAndDeleteSong = (songId, imageURL, musicURL) => {
+const confirmAndDeleteSong = (id, imageURL, musicURL) => {
   const isConfirmed = confirm(
     'Are you sure you want to delete this music? This action is irreversible.'
   );
 
   // If confirmed delete the song
   if (isConfirmed) {
-    fetch('/admin/musics/music', {
+    fetch(`/admin/musics/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ songId, imageURL, musicURL }),
+      body: JSON.stringify({ imageURL, musicURL }),
     }).then((res) => {
       if (res.status === 204) {
         const allSpans = document.querySelectorAll('span');
-        spanWithId = Array.from(allSpans).find(
-          (span) => span.innerText === songId
-        );
+        spanWithId = Array.from(allSpans).find((span) => span.innerText === id);
         const musicDetails = spanWithId.closest('.music-details');
 
         musicDetails.remove();
@@ -311,12 +309,8 @@ document.addEventListener('click', (e) => {
   const song = musicDetails.querySelector('#song-id');
   if (song) {
     const songId = song.textContent;
-    const imageURL = musicDetails
-      .querySelector('.music-cover-image')
-      .getAttribute('src');
-    const musicURL = musicDetails
-      .querySelector('.audioFile')
-      .getAttribute('src');
+    const imageURL = musicDetails.querySelector('.music-cover-image').getAttribute('src');
+    const musicURL = musicDetails.querySelector('.audioFile').getAttribute('src');
     confirmAndDeleteSong(songId, imageURL, musicURL);
   }
 });
@@ -332,7 +326,7 @@ const confirmAndDeleteAllSongs = () => {
 
   // If confirmed delete the song
   if (isConfirmed) {
-    fetch('/musics', { method: 'DELETE' }).then((res) => {
+    fetch('/admin/musics', { method: 'DELETE' }).then((res) => {
       if (res.status === 204) {
         const musicContainer = document.querySelector('.music-search-result');
         musicContainer.innerHTML = '';
@@ -470,7 +464,7 @@ btnMusicSubmit.addEventListener('click', (e) => {
 
   if (isValid) {
     // Send the music details to the backend
-    fetch('/admin/musics/music', {
+    fetch('/admin/musics', {
       method: 'POST',
       body: formData,
     }).then(async (res) => {
@@ -545,9 +539,7 @@ btnSearchToUpdate.addEventListener('click', (e) => {
   const updatedLyricist = document.getElementById('updatedLyricist');
   const updatedFileSize = document.getElementById('updatedFileSize');
   const updatedLicence = document.getElementById('updatedLicence');
-  const updatedAdditionalNote = document.getElementById(
-    'updatedAdditionalNote'
-  );
+  const updatedAdditionalNote = document.getElementById('updatedAdditionalNote');
 
   const id = searchInputToUpdate.value.trim();
   if (id === '') {
@@ -555,12 +547,11 @@ btnSearchToUpdate.addEventListener('click', (e) => {
   }
   searchInputToUpdate.value.trim();
   // SEND A POST REQUEST AND GET ALL INFORMATION AND FILL OUT THE FIELD.
-  fetch('/music/id', {
+  fetch(`/admin/musics/${id}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ id }),
   })
     .then((res) => {
       if (res.ok) {
@@ -602,11 +593,8 @@ btnMusicUpdate.addEventListener('click', (e) => {
     updatedMusic[key] = value;
   }
   const id = searchInputToUpdate.value.trim();
-  if (id !== '') {
-    updatedMusic['id'] = id;
-  }
 
-  fetch('/musics/music/update', {
+  fetch(`/admin/musics/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

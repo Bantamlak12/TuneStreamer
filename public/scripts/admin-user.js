@@ -1,3 +1,6 @@
+// ************************************************************ //
+// SELECT DOM ELEMENTS TO BE USED
+// ************************************************************ //
 const adminProfile = document.querySelector('.admin-profile-logo');
 const menu = document.querySelector('.menu');
 const html = document.querySelector('html');
@@ -14,14 +17,14 @@ const btnUpdateUser = document.querySelector('.btn-update-user-info');
 const btnDeleteUser = document.querySelector('.btn-delete-user-info');
 
 // ************************************************************ //
-// FUNCTION
+// FUNCTIONS
 // ************************************************************ //
-//SET ERROR MESSAGE
+// set error message
 const setError = (input) => {
   input.classList.add('error');
 };
 
-// SET SUCCESS MESSAGE
+// set success message
 const setSuccess = (input) => {
   input.classList.remove('error');
 };
@@ -41,7 +44,7 @@ const validateInput = () => {
   const lastNameValue = lastNameInput.value.trim();
   const emailValue = emailInput.value.trim();
 
-  // VALIDATE FIRST NAME
+  // validate firstname
   if (firstNameValue === '') {
     setError(firstNameInput);
     isValid = false;
@@ -49,7 +52,7 @@ const validateInput = () => {
     setSuccess(firstNameInput);
   }
 
-  // VALIDATE LAST NAME
+  // validate lastname
   if (lastNameValue === '') {
     setError(lastNameInput);
     isValid = false;
@@ -57,7 +60,7 @@ const validateInput = () => {
     setSuccess(lastNameInput);
   }
 
-  // VALIDATE EMAIL
+  // validate email
   if (emailValue === '' || !isValidEmail(emailValue)) {
     setError(emailInput);
     isValid = false;
@@ -68,19 +71,20 @@ const validateInput = () => {
   return isValid;
 };
 
-// Search user by email
+// ************************************************************ //
+// SEARCH A USER BY EMAIL
+// ************************************************************ //
 const searchUser = () => {
   if (searchEmail.value == '') {
     return;
   }
   const email = searchEmail.value.trim();
   //  Send request to server with email and method 'delete
-  fetch('/admin/users/user', {
-    method: 'post',
+  fetch(`/admin/users/${email}`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email }),
   })
     .then((res) => {
       if (res.ok) {
@@ -96,6 +100,16 @@ const searchUser = () => {
       return;
     });
 };
+
+searchEmail.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    searchUser();
+  }
+});
+
+search.addEventListener('click', (e) => {
+  searchUser();
+});
 // ************************************************************ //
 // ADMIN PROFILE
 // ************************************************************ //
@@ -106,24 +120,54 @@ adminProfile.addEventListener('click', function (e) {
   menu.classList.toggle('open');
 });
 
-// Close the menu when clicking the html
+// Close the menu when clicking the body
 html.addEventListener('click', function (e) {
   if (menu.classList.contains('open')) {
     menu.classList.remove('open');
   }
 });
 
-// Delete all button
+// ************************************************************ //
+// DELETE A SINGLE USER
+// ************************************************************ //
+btnDeleteUser.addEventListener('click', (e) => {
+  const isConfirmed = confirm(
+    'Are you sure you want to delete this user? This action is irreversible and cannot be undone.'
+  );
+
+  const email = searchEmail.value.trim();
+  if (!email || email === '') return;
+
+  //  Send request to server with email and method 'delete
+  if (isConfirmed) {
+    fetch(`/admin/users/${email}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => {
+      if (res.ok) {
+        userInfoForm.reset();
+        alert('User deleted successfully');
+      }
+    });
+  }
+});
+
+// ************************************************************ //
+// DELETE ALL USERS
+// ************************************************************ //
 btnDeleteAll.addEventListener('click', (e) => {
   const isConfirmed = confirm(
-    'Are you sure you want to delete all users? This action is irreversible and cannot be undone. This is a more dangerous action.'
+    'Are you sure you want to delete all users? This action is irreversible and cannot be undone.\
+    This is a more dangerous action.'
   );
 
   // If confirmed delete all users
   if (isConfirmed) {
     //  Send request to server to delete all users
     fetch('/admin/users', {
-      method: 'delete',
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -135,17 +179,9 @@ btnDeleteAll.addEventListener('click', (e) => {
   }
 });
 
-// Search
-searchEmail.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') {
-    searchUser();
-  }
-});
-search.addEventListener('click', (e) => {
-  searchUser();
-});
-
-// Update user
+// ************************************************************ //
+// UPDATE A USER
+// ************************************************************ //
 btnUpdateUser.addEventListener('click', (e) => {
   e.preventDefault();
 
@@ -159,11 +195,10 @@ btnUpdateUser.addEventListener('click', (e) => {
 
     // Email used to search the user on the database
     const email = searchEmail.value.trim();
-    updatedInfo['userEmail'] = email;
 
     // Send PUT request to update the user info on the server
-    fetch('/admin/users/user', {
-      method: 'put',
+    fetch(`/admin/users/${email}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -180,31 +215,5 @@ btnUpdateUser.addEventListener('click', (e) => {
       });
   } else {
     return;
-  }
-});
-
-// Delete a single user
-btnDeleteUser.addEventListener('click', (e) => {
-  const isConfirmed = confirm(
-    'Are you sure you want to delete this user? This action is irreversible and cannot be undone.'
-  );
-
-  const email = searchEmail.value.trim();
-  if (!email || email === '') return;
-
-  //  Send request to server with email and method 'delete
-  if (isConfirmed) {
-    fetch('/admin/users/user', {
-      method: 'delete',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email }),
-    }).then((res) => {
-      if (res.ok) {
-        userInfoForm.reset();
-        alert('User deleted successfully');
-      }
-    });
   }
 });

@@ -39,14 +39,12 @@ const setSuccess = (input) => {
 };
 
 // ************************************************************ //
-// EVENT LISTNERS
+// TOGGLE PASSWORD'S EYE ICON
 // ************************************************************ //
-// Toggle password eye icon
 const icon = document.querySelector('.password-toggle-icon');
 
 icon.addEventListener('click', (e) => {
-  const type =
-    passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+  const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
   passwordInput.setAttribute('type', type);
 
   icon.classList.toggle('fa-eye');
@@ -81,6 +79,18 @@ const validateInput = (email) => {
   return isValid;
 };
 
+emailInput.addEventListener('input', (e) => {
+  e.preventDefault();
+  setSuccess(emailInput);
+});
+passwordInput.addEventListener('input', (e) => {
+  setSuccess(passwordInput);
+  removeErrorMessage('.error-message');
+});
+
+// ************************************************************ //
+// SEND POST REQUEST TO SIGN IN
+// ************************************************************ //
 signInButton.addEventListener('click', (e) => {
   e.preventDefault();
 
@@ -92,8 +102,8 @@ signInButton.addEventListener('click', (e) => {
       userCredentials[key] = value;
     }
 
-    // SEND DATA TO BACKEND
-    fetch('/signin', {
+    // Send sign in credentials to backend
+    fetch('/auth/signin', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
@@ -109,19 +119,10 @@ signInButton.addEventListener('click', (e) => {
           childClass = 'error-message';
           displayErrorMessage(message, parentClass, childClass);
         } else if (!data.isAdmin) {
-          window.location.href = '/dashboard';
+          window.location.href = '/my-musics';
         } else if (data.isAdmin) {
           window.location.href = '/admin/musics';
         }
       });
   }
-});
-
-emailInput.addEventListener('input', (e) => {
-  e.preventDefault();
-  setSuccess(emailInput);
-});
-passwordInput.addEventListener('input', (e) => {
-  setSuccess(passwordInput);
-  removeErrorMessage('.error-message');
 });

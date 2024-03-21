@@ -1,5 +1,6 @@
-// const validator = require('validator');
-
+// ************************************************************ //
+// SELECT DOM ELEMENTS TO BE USED
+// ************************************************************ //
 const form = document.querySelector('.registration-form');
 const signUpButton = document.querySelector('.sign-up');
 const firstNameInput = document.getElementById('firstName');
@@ -68,7 +69,9 @@ const setSuccess = (input) => {
   input.classList.remove('error');
 };
 
+// ************************************************************ //
 // VALIDATE PASSWORD
+// ************************************************************ //
 const isPasswdValid = (password1) => {
   const upperCaseRegex = /[A-Z]/;
   const lowerCaseRegex = /[a-z]/;
@@ -173,22 +176,23 @@ const validateInput = () => {
 };
 
 // ************************************************************ //
-// EVENT LISTNER FOR FORM SUBMISSSION
+// TOGGLE PASSWORD'S EYE ICON
 // ************************************************************ //
 
-// Toggle eye icon
 form.addEventListener('click', (e) => {
   if (e.target.classList.contains('password-toggle-icon')) {
     const inputId = e.target.getAttribute('data-target');
     const inputField = document.getElementById(inputId);
-    const type =
-      inputField.getAttribute('type') === 'password' ? 'text' : 'password';
+    const type = inputField.getAttribute('type') === 'password' ? 'text' : 'password';
     inputField.setAttribute('type', type);
 
     e.target.classList.toggle('fa-eye');
   }
 });
 
+// ************************************************************ //
+// SIGN UP FORM SUBMISSION
+// ************************************************************ //
 signUpButton.addEventListener('click', (e) => {
   e.preventDefault();
 
@@ -201,7 +205,7 @@ signUpButton.addEventListener('click', (e) => {
     }
 
     // SEND DATA TO BACKEND
-    fetch('/signup', {
+    fetch('/auth/signup', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',

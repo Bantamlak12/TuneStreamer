@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const handleSearch = () => {
   const searchingWord = searchInput.value;
   // SEND THE REQUEST TO BACKEND HERE
-  fetch('/music/search', {
+  fetch('/musics/search', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ html.addEventListener('click', function (e) {
 document.querySelector('.link-sign-out').addEventListener('click', (e) => {
   e.preventDefault();
 
-  fetch('/signout', {
+  fetch('/auth/signout', {
     method: 'post',
   }).then((res) => {
     if (res.ok) {

@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
-const Music = require('../models/Music');
 const Admin = require('../models/Admin');
 
 class AuthController {
@@ -46,6 +45,12 @@ class AuthController {
           .json({ error: '"admin" cannot be used as a name' });
       }
 
+      // Check if the user is already registered
+      const user = await User.findOne({ email });
+      if (user) {
+        return res.status(400).json({ message: 'Email already exists' });
+      }
+
       // Create new user document
       const newUser = new User({
         firstName,
@@ -60,12 +65,6 @@ class AuthController {
 
       return res.status(200).redirect('/signin');
     } catch (error) {
-      if (error.name === 'MongoServerError' && error.code === 11000) {
-        return res.status(400).json({ message: 'Email already exists' });
-      }
-      if (error.name === 'ValidationError') {
-        return res.status(400).json({ error: '' });
-      }
       console.log(`Error creating user: ${error.message}`);
       res.status(500).json({ message: 'Internal server error' });
     }

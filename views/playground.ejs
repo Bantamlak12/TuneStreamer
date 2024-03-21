@@ -3,17 +3,17 @@
   <head>
     <%- include('./partials/head.ejs') %>
     <link rel="stylesheet" href="/styles/adminMusic.css" />
-    <script defer src="/scripts/admin-music.js"></script>
-    <title>Admin for TuneStream | TuneStream</title>
+    <script defer src="/scripts/user-home.js"></script>
+    <title>User for TuneStream | TuneStream</title>
   </head>
   <body>
     <div class="container">
       <div class="header">
         <h1><span class="logo-part">Tune</span>Streamer</h1>
         <img
-          class="admin-profile-logo"
+          class="user-profile-logo"
           src="images/circle-user.svg"
-          alt="Admin"
+          alt="User"
         />
       </div>
       <div class="menu-toggle">
@@ -22,19 +22,19 @@
         </div>
       </div>
 
-      <div class="get">
+      <section class="get">
         <div class="search-container">
           <div class="search-wrapper">
             <input
               id="input"
               class="search-input"
               type="text"
-              placeholder="Search"
+              placeholder="Song title or artist name"
             />
-            <img id="search" src="images/search.svg" class="search-icon" />
+            <img id="search" src="/images/search.svg" class="search-icon" />
           </div>
         </div>
-      </div>
+      </section>
 
       <section class="section-search-result">
         <div class="music-search-result"></div>

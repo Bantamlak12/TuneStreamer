@@ -50,7 +50,7 @@ class UserController {
   // DELETE /admin/users/:email
   static async deleteUser(req, res) {
     try {
-      const { email } = req.body;
+      const email = req.params.email;
 
       if (!email) {
         return res.status(400).json({ error: 'Email is required' });

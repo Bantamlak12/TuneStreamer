@@ -56,7 +56,7 @@ const musicSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  licenceInformation: {
+  licence: {
     type: String,
     trim: true,
   },

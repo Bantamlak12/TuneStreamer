@@ -317,7 +317,7 @@ btnSearch.addEventListener('click', (e) => {
   handleSearch();
 });
 
-// Triggering search icon
+// Searching with Enter key
 searchInput.addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
     handleSearch();

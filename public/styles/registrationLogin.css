@@ -57,7 +57,9 @@ body {
 .icon {
   width: 2rem;
 }
-
+.container {
+  height: 100vh;
+}
 .registration,
 .signIn {
   background-color: #fff;
@@ -238,12 +240,12 @@ body {
   border: 1.5px solid #c92a2a;
 }
 .footer {
-  margin-top: auto;
   color: #444;
   font-family: inherit;
   font-size: 1.2rem;
   font-weight: 400;
   background-color: #ced4da;
+  margin-top: auto;
   margin-top: 5rem;
   padding: 3rem;
   display: flex;

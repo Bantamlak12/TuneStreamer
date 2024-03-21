@@ -45,7 +45,8 @@ body {
   background: linear-gradient(to bottom, #085e44, #2c554d);
   margin-right: 0.7rem;
 }
-.admin-profile-logo {
+.admin-profile-logo,
+.user-profile-logo {
   width: 40px;
   cursor: pointer;
 }

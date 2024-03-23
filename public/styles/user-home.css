@@ -88,6 +88,7 @@ body {
   margin-bottom: 1rem;
 }
 .header-title {
+  width: 80rem;
   font-size: 4.8rem;
   line-height: 1.1;
   padding-bottom: 2rem;

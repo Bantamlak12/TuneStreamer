@@ -25,8 +25,15 @@ class AuthController {
       const saltRound = 10;
       const hashedpasswd = await bcrypt.hash(password, saltRound);
 
+      // Check if the user is already registered
+      const user = await User.findOne({ email });
+      if (user) {
+        return res.status(400).json({ message: 'Email already exists' });
+      }
+
       // Create admin
       if (firstName === 'admin' && lastName === 'admin') {
+        // Find existing admin
         const existingAdmin = await Admin.findOne({ isAdmin: true });
         if (!existingAdmin) {
           // If no admin add the  new user as an admin
@@ -43,12 +50,6 @@ class AuthController {
 
       if (firstName === 'admin' || lastName === 'admin') {
         return res.status(409).json({ error: '"admin" cannot be used as a name' });
-      }
-
-      // Check if the user is already registered
-      const user = await User.findOne({ email });
-      if (user) {
-        return res.status(400).json({ message: 'Email already exists' });
       }
 
       // Create new user document

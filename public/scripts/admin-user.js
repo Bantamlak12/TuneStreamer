@@ -208,6 +208,8 @@ btnUpdateUser.addEventListener('click', (e) => {
         if (res.ok) {
           alert('User updated successfully');
           userInfoForm.reset();
+        } else if (res.status === 500) {
+          setError(emailInput);
         }
       })
       .catch((error) => {

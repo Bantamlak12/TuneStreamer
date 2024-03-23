@@ -56,6 +56,9 @@ body {
   padding: 1.5rem 10rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0, 0.1);
 }
+.sticky {
+  position: fixed;
+}
 .nav-links {
   display: flex;
   align-items: center;
@@ -220,10 +223,12 @@ textarea:focus {
 }
 .contact-form {
   margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
 }
 .btn-feedback {
-  text-align: center;
   width: 20rem;
+  align-self: center;
   color: #fff;
   background-color: #099268;
 }

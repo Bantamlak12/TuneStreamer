@@ -10,6 +10,9 @@ const router = express.Router();
 // ************************************************************ //
 // PUBLIC ROUTES TO GET PAGES
 // ************************************************************ //
+router.get('/', (req, res) => {
+  res.render('index');
+});
 router.get('/signup', AuthController.getSignupPage);
 router.get('/signin', AuthController.getSignInPage);
 

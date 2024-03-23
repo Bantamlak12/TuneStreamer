@@ -47,6 +47,21 @@ body {
   font-weight: 500;
   transition: all 0.3s;
 }
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5rem;
+}
+.home-nav:link,
+.home-nav:visited {
+  text-decoration: none;
+  color: #fff;
+}
+.home-nav:hover,
+.home-nav:active {
+  color: #fff;
+}
 .header .link:hover {
   background-color: #057553;
 }

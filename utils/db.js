@@ -8,13 +8,10 @@ dotenv.config({ path: './config.env' });
 class DBClient {
   constructor() {
     // CONNECTING WITH LOCAL
-    const DB = process.env.DATABASE_LOCAL;
+    // const DB = process.env.DATABASE_LOCAL;
 
     // CONNECTING WITH ATLAS
-    // const DB = process.env.DATABASE.replace(
-    //   "<PASSWORD>",
-    //   process.env.DATABASE_PASSWORD
-    // );
+    const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
 
     this.mongooseConnection = mongoose.connect(DB);
 

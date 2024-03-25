@@ -248,7 +248,8 @@ body {
   background-color: inherit;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  column-gap: 20px;
+  row-gap: 50px;
   margin-top: 5rem;
   padding-top: 2.5rem;
 }

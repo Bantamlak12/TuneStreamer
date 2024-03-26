@@ -22,7 +22,7 @@ const musicSchema = new mongoose.Schema({
     trim: true,
   },
   genre: {
-    type: String,
+    type: [String],
     trim: true,
   },
   releaseYear: {

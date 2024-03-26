@@ -42,7 +42,7 @@ app.use(
     store: sessionStore,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
-      secure: true,
+      secure: false, // It will be changed to true in production
       httpOnly: true,
     },
   })
